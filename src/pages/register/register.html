@@ -1,0 +1,86 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Register</ion-title>
+   
+  </ion-navbar>
+
+</ion-header>
+<ion-content class="gray-bg">
+<br/> 
+  <div class="container">
+  <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid,$event)">
+   
+    <div class="form-group">
+      <label for="">Email</label>
+      <input type="email" class="form-control" name="email" [ngModel]="user.email" 
+        required  #email="ngModel" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$">
+      <small [hidden]="email.valid || (email.pristine && !f.submitted)" class="text-danger">
+        Email is required and format should be <i>john@doe.com</i>.
+      </small>
+      <!--<pre *ngIf="email.errors" class="margin-20">{{ email.errors | json }}</pre>-->
+    </div>
+    <div class="form-group">
+      <label for="">Password</label>
+      <input type="password" class="form-control" name="password" [ngModel]="user.password" 
+        required validateEqual="confirmPassword" reverse="true" #password="ngModel">
+      <small [hidden]="password.valid || (password.pristine && !f.submitted)" class="text-danger">
+        Password is required
+      </small>
+      <small class="text-danger">
+        Password should have one Number,Upper Case Letter, special letter
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="">Retype password</label>
+      <input type="password" class="form-control" name="confirmPassword" [ngModel]="user.confirmPassword" 
+        required validateEqual="password" reverse="false" #confirmPassword="ngModel">
+      <small [hidden]="confirmPassword.valid || (confirmPassword.pristine && !f.submitted)" class="text-danger">
+        Password mismatch
+      </small>
+      <!--<pre *ngIf="confirmPassword.errors" class="margin-20">{{ confirmPassword.errors | json }}</pre>-->
+    </div>
+		 <div class="form-group">
+      <label for="">Phone Number</label>
+      <input type="tel" class="form-control" name="phonenumber" [ngModel]="user.phonenumber" 
+        required  #phonenumber="ngModel">
+      <small [hidden]="phonenumber.valid || (phonenumber.pristine && !f.submitted)" class="text-danger">
+        phonenumber is required .
+      </small>
+      <!--<pre *ngIf="username.errors" class="margin-20">{{ username.errors | json }}</pre>-->
+    </div>
+		<div class="form-group">
+      <label for="">First Name</label>
+      <input type="text" class="form-control" name="FirstName" [ngModel]="user.FirstName" 
+        required  #FirstName="ngModel">
+      <small [hidden]="FirstName.valid || (FirstName.pristine && !f.submitted)" class="text-danger">
+        FirstName is required .
+      </small>
+      <!--<pre *ngIf="username.errors" class="margin-20">{{ username.errors | json }}</pre>-->
+    </div>
+		<div class="form-group">
+      <label for="">Last Name</label>
+      <input type="text" class="form-control" name="LastName" [ngModel]="user.LastName" 
+        required  #LastName="ngModel">
+      <small [hidden]="LastName.valid || (LastName.pristine && !f.submitted)" class="text-danger">
+        Last Name is required .
+      </small>
+      <!--<pre *ngIf="username.errors" class="margin-20">{{ username.errors | json }}</pre>-->
+    </div>
+    <button type="submit" class="btn btn-block btn-danger">SignUp</button>
+     </form>
+</div>
+
+<div text-center margin-top>
+      <span color="" (click)="SignIn()">Already Registered? Sign in</span>
+    </div>
+</ion-content>

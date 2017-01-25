@@ -1,0 +1,41 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>My Orders</ion-title>
+    <ion-buttons end>     
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding class="cart gray-bg">  
+  <ion-list class="list-no-border" inset  >
+    
+    <ion-item class="card"   *ngFor="let Addresses of orderViewModel;let i = index"    margin-top fab-center>
+      <ion-item>
+			<ion-thumbnail item-left>
+      <img src="{{Addresses.thumb}}" alt=""/>
+    </ion-thumbnail>
+        <p><small  class="text-danger"> {{Addresses.ProdcutName}}</small></p>
+<p><small  class="text-danger"> DeliveryDate :	{{Addresses.OrderDate}}</small> </p>
+	 <p><small  class="text-danger">Delivery Time :	{{Addresses.DeliveryTime}}</small></p> 
+	 
+     <p><small  class="text-danger">Total : Rs  {{Addresses.OrderTotal}}</small></p> 
+		  <ion-note item-right><small  class="text-danger">
+    {{Addresses.OrderStatus}}
+      </small></ion-note>
+      </ion-item>
+    
+    </ion-item>
+
+  </ion-list> 
+
+</ion-content>

@@ -1,0 +1,65 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <!-- Cover and profile picture --> <!-- Cover and profile picture -->
+  <div class="profile-cover">
+   <div text-center padding-top padding-bottom class="primary-bg menu-left">
+      <a menuClose >
+        <img class="profile-picture" src="{{url}}">
+        <h4 color="light">{{name}}</h4>
+      </a>
+    </div>
+  </div>  
+
+  <!-- User settings -->
+  <ion-list class="list-full-border">
+    <ion-item>
+      <ion-label stacked color="primary">Firstname</ion-label>
+      <ion-input type="text" value="Firstname" [(ngModel)]="UserInfo.FirstName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+     <ion-label stacked color="primary">LastName</ion-label>
+      <ion-input type="text" value="UserInfo.LastName" [(ngModel)]="UserInfo.LastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+     <ion-label stacked color="primary">PhoneNumber</ion-label>
+      <ion-input type="text" value="UserInfo.PhoneNumber" [(ngModel)]="UserInfo.PhoneNumber"></ion-input>
+    </ion-item>  
+		
+  </ion-list>
+</ion-content>
+
+<!--bottom buttons-->
+<ion-footer>
+  <ion-grid no-padding>
+    <ion-row class="item-button-group" no-padding>
+      <ion-col no-padding>
+        <button ion-button block color="gray">
+          Cancel
+        </button>
+      </ion-col>
+      <ion-col no-padding>
+        <button ion-button block (click)="saveProfile()">
+          Save
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

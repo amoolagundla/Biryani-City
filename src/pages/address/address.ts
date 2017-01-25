@@ -1,0 +1,150 @@
+import { Component, OnInit } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { Address, UserInfo } from '../../app/app.module';
+import { ValuesService } from '../../services/ValuesService';
+import { LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+/*
+  Generated class for the Address page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
+@Component({
+	selector: 'page-address',
+	templateUrl: 'address.html'
+})
+export class AddressPage implements OnInit {
+	public loading: any = this.loadingCtrl.create({
+		content: "Please wait...",
+		dismissOnPageChange: true
+	});
+	public userInfo: UserInfo;
+	public myVar: boolean;
+	public fromCheckout: boolean = false;
+	public address: any = {
+		Address1: '',
+		Address2: '',
+		State: '',
+		City: '',
+		Country: 'India',
+		Address3: '',
+		UserName: '',
+		Id: 0,
+		IsDefault: false,
+		PostalCode: ''
+	};
+	ngOnInit() {
+
+
+	}
+
+
+	constructor(public navCtrl: NavController,
+		public loadingCtrl: LoadingController, public navParams: NavParams,
+		public valuesService: ValuesService, public storage: Storage) {
+
+		let add = this.navParams.get('address');
+
+		if (add != undefined) {
+			console.log('oside')
+			let addd: string[] = add.split(',');
+			console.log(add);
+			this.address.Address1 = addd[0];
+			this.address.State = addd[3];
+			this.address.City = addd[2];
+			this.address.PostalCode = addd[4];
+			this.fromCheckout = true;
+			this.myVar = false;
+		}
+		this.storage.get('UserInfo').then((currentUser) => {
+			this.userInfo = JSON.parse(currentUser);
+			console.log(this.userInfo);
+			if ((this.userInfo.Addresses != undefined && this.userInfo.Addresses.length == 0) || this.fromCheckout == true) {
+				this.myVar = true;
+			}
+			else {
+				this.myVar = false;
+			}
+		}).catch(error => {
+
+		});
+
+	}
+	EditAddress(Addresses: any) {
+		this.address = Addresses;
+		this.myVar = !this.myVar;
+	}
+	GoBack() {
+		this.myVar = !this.myVar;
+	}
+	remove(id: number) {
+		this.loading.present();
+		this.valuesService.DeleteAddress(id).
+			subscribe(
+			da => {
+				this.userInfo.Addresses = this.userInfo.Addresses
+					.filter(todo => todo.Id !== id);
+					this.storage.set('UserInfo', JSON.stringify(this.userInfo));
+				this.loading.dismiss();
+
+			}, error => {
+				this.loading.dismiss();
+			});
+	}
+
+	save(model: Address, isValid: boolean) {
+
+		if (isValid) {
+			this.loading.present();
+			if (model.Id > 0) {
+				this.valuesService.UpdateAddress(model)
+					.subscribe(
+					da => {
+
+						this.userInfo.Addresses = this.userInfo.Addresses
+							.filter(todo => todo.Id !== model.Id);
+
+						this.userInfo.Addresses.push(model);
+						this.storage.set('UserInfo', JSON.stringify(this.userInfo));
+						this.loading.dismiss();
+
+
+						this.navCtrl.setRoot(AddressPage);
+					}, error => {
+						this.loading.dismiss();
+					});
+			}
+			else {
+				this.valuesService.InsertAddress(model)
+					.subscribe(
+					da => {
+                          console.log("added id is " + da.Id)
+						this.userInfo.Addresses.push(da);
+						this.storage.set('UserInfo', JSON.stringify(this.userInfo));
+						this.loading.dismiss();
+
+
+						this.navCtrl.setRoot(AddressPage);
+
+					});
+			}
+		}
+	}
+}
+export class SerializationHelper {
+	static toInstance<T>(obj: T, json: string): T {
+		var jsonObj = JSON.parse(json);
+
+		if (typeof obj["fromJSON"] === "function") {
+			obj["fromJSON"](jsonObj);
+		}
+		else {
+			for (var propName in jsonObj) {
+				obj[propName] = jsonObj[propName]
+			}
+		}
+
+		return obj;
+	}
+}

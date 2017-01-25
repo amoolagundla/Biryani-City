@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.mydomainhere.appnamehere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Biryani City</name>
+    <description>An Awesome online fresh meat store</description>
+    <author email="am8215@gmail.com" href="http://ionicframework.com/">Abhinav Moolagundla</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png" />
+        <icon density="mdpi" src="resources\android\icon\drawable-mdpi-icon.png" />
+        <icon density="hdpi" src="resources\android\icon\drawable-hdpi-icon.png" />
+        <icon density="xhdpi" src="resources\android\icon\drawable-xhdpi-icon.png" />
+        <icon density="xxhdpi" src="resources\android\icon\drawable-xxhdpi-icon.png" />
+        <icon density="xxxhdpi" src="resources\android\icon\drawable-xxxhdpi-icon.png" />
+        <splash density="land-ldpi" src="resources\android\splash\drawable-land-ldpi-screen.png" />
+        <splash density="land-mdpi" src="resources\android\splash\drawable-land-mdpi-screen.png" />
+        <splash density="land-hdpi" src="resources\android\splash\drawable-land-hdpi-screen.png" />
+        <splash density="port-ldpi" src="resources\android\splash\drawable-port-ldpi-screen.png" />
+        <splash density="port-mdpi" src="resources\android\splash\drawable-port-mdpi-screen.png" />
+        <splash density="port-hdpi" src="resources\android\splash\drawable-port-hdpi-screen.png" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="23" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashScreenDelay" value="0" />
+    <preference name="FadeSplashScreen" value="false" />
+    <preference name="FadeSplashScreenDuration" value="0" />
+    <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF" />
+    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="SplashScreen" value="screen" />
+    <feature name="StatusBar">
+        <param name="ios-package" onload="true" value="CDVStatusBar" />
+    </feature>
+    <plugin name="cordova-plugin-device" spec="~1.1.3" />
+    <plugin name="cordova-plugin-console" spec="~1.0.4" />
+    <plugin name="cordova-plugin-splashscreen" spec="~4.0.0" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.2.0" />
+    <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
+    <plugin name="ionic-plugin-deploy" spec="~0.6.5" />
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.1" />
+    <plugin name="com.razorpay.cordova" spec="https://github.com/razorpay/razorpay-cordova.git" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.6.1" />
+    <plugin name="phonegap-plugin-push" spec="~1.9.2">
+        <variable name="SENDER_ID" value="406482357619" />
+    </plugin>
+    <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
+        <variable name="APP_ID" value="1835538836698571" />
+        <variable name="APP_NAME" value="Biryani Ciy test1" />
+    </plugin>
+    <plugin name="cordova-plugin-nativestorage" spec="~2.2.0" />
+    <icon src="resources\android\icon\drawable-xhdpi-icon.png" />
+    <plugin name="cordova-plugin-googleplus" spec="~5.1.1">
+        <variable name="REVERSED_CLIENT_ID" value="794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com" />
+    </plugin>
+</widget>
