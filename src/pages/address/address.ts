@@ -19,6 +19,7 @@ export class AddressPage implements OnInit {
 		content: "Please wait...",
 		dismissOnPageChange: true
 	});
+	public  goToCart:boolean=false;
 	public userInfo: UserInfo;
 	public myVar: boolean;
 	public fromCheckout: boolean = false;
@@ -45,7 +46,8 @@ export class AddressPage implements OnInit {
 		public valuesService: ValuesService, public storage: Storage) {
 
 		let add = this.navParams.get('address');
-
+       this.goToCart = this.navParams.get('gotToCart');
+	   alert(this.goToCart)
 		if (add != undefined) {
 			console.log('oside')
 			let addd: string[] = add.split(',');
@@ -109,8 +111,14 @@ export class AddressPage implements OnInit {
 						this.storage.set('UserInfo', JSON.stringify(this.userInfo));
 						this.loading.dismiss();
 
-
+                         if(this.goToCart== undefined)
+						 {
+							 this.navCtrl.pop();
+						
+						 }
+						 else{
 						this.navCtrl.setRoot(AddressPage);
+						 }
 					}, error => {
 						this.loading.dismiss();
 					});
@@ -125,7 +133,14 @@ export class AddressPage implements OnInit {
 						this.loading.dismiss();
 
 
+						if(this.goToCart== undefined)
+						 {
+							 this.navCtrl.pop();
+						
+						 }
+						 else{
 						this.navCtrl.setRoot(AddressPage);
+						 }
 
 					});
 			}

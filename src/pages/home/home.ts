@@ -258,8 +258,17 @@ this.myVar=false;
     }
 
     GoToCart() {
-
-        this.nav.setRoot(CartPage);
+   if(this.cartCount!=0)
+        this.nav.push(CartPage);
+        else
+        {
+             let alert = this.alertController.create({
+                            title: 'Cart ',
+                            subTitle: 'Cart Empty',
+                            buttons: ['Dismiss']
+                        });
+                        alert.present();
+        }
     }
     // view a category
     ViewCategory(categoryId,name) {

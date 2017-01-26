@@ -26,6 +26,8 @@ import {
 } from 'ionic-angular';
 import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
+import {PayPal, PayPalPayment, PayPalConfiguration} from "ionic-native";
+import{LocationTracker} from '../../services/LocationTracker';
 declare var google;
 declare const RazorpayCheckout: any;
 
@@ -40,7 +42,7 @@ declare const RazorpayCheckout: any;
     templateUrl: 'checkout.html'
 })
 export class CheckoutPage {
-
+    public duration:number=0;
     public currentAddress: any;
     public DeliveyTime: any='12PM';
     public DeliveyDate: string = new Date().toISOString();
@@ -135,8 +137,10 @@ export class CheckoutPage {
         public navParams: NavParams,
         public cartService: CartService,
         private valuesService: ValuesService,
-        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage) {
-
+        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,public locationTracker: LocationTracker) {
+         
+        
+         
         this.storage.get('UserInfo').then((currentUser) => {
             this.userInfo = SerializationHelper.toInstance(new UserInfo(), currentUser);
            
@@ -154,7 +158,10 @@ export class CheckoutPage {
     }
 
 
-
+addNewAddress()
+{
+    this.nav.push(AddressPage,{goTocart:true});
+}
 
 
     // edit address
@@ -248,43 +255,98 @@ export class CheckoutPage {
 
 
     public onSubmit() {
-        var amt = this.total * 100;
-        var options = {
-            description: 'Credits towards consultation',
-            image: 'https://i.imgur.com/3g7nmJC.png',
-            currency: 'INR',
-            key: 'rzp_test_TXWGPmvIG46GTp',
-            amount: amt,
-            name: '99Meat',
-            prefill: {
-                email: '',
-                contact: '',
-                name: ''
-            },
-            theme: {
-                color: '#F37254'
-            },
-            modal: {
-                ondismiss: function () {
-                    alert('dismissed');
-                    this.loading.dismiss();
-                }
-            }
-        };
+        // var amt = this.total * 100;
+        // var options = {
+        //     description: 'Credits towards consultation',
+        //     image: 'https://i.imgur.com/3g7nmJC.png',
+        //     currency: 'INR',
+        //     key: 'rzp_test_TXWGPmvIG46GTp',
+        //     amount: amt,
+        //     name: '99Meat',
+        //     prefill: {
+        //         email: '',
+        //         contact: '',
+        //         name: ''
+        //     },
+        //     theme: {
+        //         color: '#F37254'
+        //     },
+        //     modal: {
+        //         ondismiss: function () {
+        //             alert('dismissed');
+        //             this.loading.dismiss();
+        //         }
+        //     }
+        // };
 
-        var successCallback = function (payment_id) {
-            alert('payment_id: ' + payment_id);
-            this.loading.dismiss();
-        };
+        // var successCallback = function (payment_id) {
+        //     alert('payment_id: ' + payment_id);
+        //     this.loading.dismiss();
+        // };
 
-        var cancelCallback = function (error) {
-            alert(error.description + ' (Error ' + error.code + ')');
-            this.loading.dismiss();
-        };
+        // var cancelCallback = function (error) {
+        //     alert(error.description + ' (Error ' + error.code + ')');
+        //     this.loading.dismiss();
+        // };
 
-        this.platform.ready().then(() => {
-            RazorpayCheckout.open(options, successCallback, cancelCallback);
-        })
+        // this.platform.ready().then(() => {
+        //     RazorpayCheckout.open(options, successCallback, cancelCallback);
+        // })
+       let tot= this.total;
+     let th=this;
+       PayPal.init({
+  "PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+  "PayPalEnvironmentSandbox": "AU5Mng0JFeoHV0HtrNCQJbI_ShoYQtPnlAd9y5iDIF11DNQx8bNCZSJYU6uRlaxowpkPwB7qYO2wCe9U"
+}).then(() => {
+  // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+  PayPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+    // Only needed if you get an "Internal Service Error" after PayPal login!
+    //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+  })).then(() => {
+    let payment = new PayPalPayment(tot, 'USD', 'Description', 'sale');
+    PayPal.renderSinglePaymentUI(payment).then(() => {
+      // Successfully paid
+
+      // Example sandbox response
+      //
+      // {
+      //   "client": {
+      //     "environment": "sandbox",
+      //     "product_name": "PayPal iOS SDK",
+      //     "paypal_sdk_version": "2.16.0",
+      //     "platform": "iOS"
+      //   },
+      //   "response_type": "payment",
+      //   "response": {
+      //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+      //     "state": "approved",
+      //     "create_time": "2016-10-03T13:33:33Z",
+      //     "intent": "sale"
+      //   }
+      // }
+        alert(JSON.stringify(payment));
+       th.loading.present();
+            let OrderDetail = {
+                DeliveryTime: th.DeliveyTime,
+                DeliveryDate: th.DeliveyDate,
+                cart: th.cartService.getCart(),
+                AddressId: th.addressId,
+                PaymentMethod: th.paymentMethod
+            };
+            th.placeOrder(OrderDetail);
+
+    }, (err) => {
+        alert(err);
+      // Error or render dialog closed without being successful
+    });
+  }, (err) => {
+      alert(err);
+    // Error in configuration
+  });
+}, () => {
+    alert('initialization');
+  // Error in initialization, maybe PayPal isn't supported or something else
+});
     }
 
     public showAlert() {
@@ -309,16 +371,21 @@ export class CheckoutPage {
             this.onSubmit();
         }
         else {
-            this.valuesService.PostOrder(OrdDetail).subscribe(
+           this.placeOrder(OrdDetail);
+        }
+    }
+public placeOrder(orderDetail:any)
+{
+      this.loading.dismiss();
+        this.loading.present();
+     this.valuesService.PostOrder(orderDetail).subscribe(
                 data => {
                     this.getUserInfo();
                 },
                 error => {
                     this.loading.dismiss();
                 });
-        }
-    }
-
+}
     public getUserInfo() {
         this.valuesService.getAll().subscribe(
             data => {

@@ -12,6 +12,7 @@ import {UserPage} from '../pages/user/user';
 import {AboutPage} from '../pages/about/about';
 import {LoginPage} from '../pages/login/login';
 import{CartService} from '../services/cart-service';
+
 import {
     
     NativeStorage
@@ -26,6 +27,10 @@ import {
 } from '@ionic/cloud-angular';
 // end import pages
 
+
+    
+
+  
 @Component({
   templateUrl: 'app.html',
   queries: {
@@ -45,16 +50,12 @@ public cartItemCount:any = 0;
       icon: 'ios-home-outline',
       count: 0,
       component: HomePage
-    },
-
-    
-
-    {
-      title: 'My Cart',
-      icon: 'ios-cart-outline',
-      count: this.cartItemCount,
-      component: CartPage
-    },
+    }, {
+     title: 'My Cart',
+     icon: 'ios-cart-outline',
+     count: this.cartItemCount,
+     component: CartPage
+   },
 		{
       title: 'Profile',
       icon: 'ios-list-outline',

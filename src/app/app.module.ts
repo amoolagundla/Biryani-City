@@ -38,6 +38,7 @@ import {UserPage} from '../pages/user/user';
 import {LogoutPage} from '../pages/logout/logout';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { SignalRService } from '../services/signalRService';
+import{LocationTracker} from '../services/LocationTracker';
 // end import pages
 
 const cloudSettings: CloudSettings = {
@@ -119,7 +120,8 @@ const cloudSettings: CloudSettings = {
 		AuthenticationService,
 		HttpClient,
 		ValuesService,
-    SignalRService
+    SignalRService,
+    LocationTracker
     /* import services */
   ]
 })

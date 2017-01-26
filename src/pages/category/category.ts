@@ -130,6 +130,6 @@ this.cartService
 GoToCart()
 {
 
-	this.nav.setRoot(CartPage);
+	this.nav.push(CartPage);
 }
 }
