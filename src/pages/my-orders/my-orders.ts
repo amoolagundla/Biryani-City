@@ -2,6 +2,17 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {LoginPage} from '../../pages/login/login';
 import { Storage } from '@ionic/storage';
+import {
+    ValuesService
+} from '../../services/ValuesService';
+import {
+    
+    AlertController
+    
+} from 'ionic-angular';
+import {
+   OrderDetailsPage
+} from '../../pages/order-details/order-details';
 /*
   Generated class for the MyOrders page.
 
@@ -14,15 +25,34 @@ import { Storage } from '@ionic/storage';
 })
 export class MyOrdersPage {
     public orderViewModel:any[];
-  constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage) {
+    public user:any;
+  constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController) {
 	
+
+  
+
+
 	this.storage.get('UserInfo').then((data) => {
-                 let user = JSON.parse(data);
-                 console.log(user);
-	 this.orderViewModel =user.Orders;
+                 this.user = JSON.parse(data);
+                 
+	 this.valService.getUserOrders(this.user.Email =="sys@gmail.com"? 'null':this.user.Id).subscribe(data=>
+   {
+          this.orderViewModel=data;
+   },err=>
+   {
+             this.nav.pop();
+   })
+
+
             },error=>
 					{
-						 	this.nav.setRoot(LoginPage);
+             let alert = this.alrt.create({
+                            title: 'Error ',
+                            subTitle: 'Please Login to view Orders',
+                            buttons: ['Dismiss']
+                        });
+                        alert.present();
+             this.nav.pop();
 					});  
 		
 	
@@ -30,6 +60,26 @@ export class MyOrdersPage {
 
   ionViewDidLoad() {
    
+  }
+doRefresh(refresher) {
+
+
+this.valService.getUserOrders(this.user.Email =="sys@gmail.com"? 'null':this.user.Id).subscribe(data=>
+   {
+      refresher.complete();
+          this.orderViewModel=data;
+   },err=>
+   {
+ refresher.complete(); 
+   })
+
+
+       
+    }
+  itemSelected(item)
+  {
+  
+    this.nav.push(OrderDetailsPage,{id:item})
   }
 
 }

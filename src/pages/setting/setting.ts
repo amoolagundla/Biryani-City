@@ -10,6 +10,7 @@ import {
      
     
 } from 'ionic-native';
+import { Events } from 'ionic-angular';
 /* 
  Generated class for the LoginPage page.
 
@@ -21,14 +22,14 @@ import {
   templateUrl: 'setting.html'
 })
 export class SettingPage {
-	public url:string='';
+	public url:string='assets/img/4.jpg';
 public name:string='';
   public UserInfo:any;
 	public loading :any= this.loadingCtrl.create({
       content: "Please wait...",      
       dismissOnPageChange: true
     });
-  constructor(public nav: NavController,public valService:ValuesService,	public loadingCtrl: LoadingController) {
+  constructor(public nav: NavController,public valService:ValuesService,	public loadingCtrl: LoadingController,public events:Events) {
 			console.log(this.valService.UserInfo);
 			this.UserInfo = this.valService.getUserInfo();
 			 NativeStorage.getItem('userDetails').then((data) =>
@@ -40,6 +41,12 @@ public name:string='';
    {
 
    });
+
+     this.events.subscribe('UpdatePic',(data) => {
+
+         this.url=data.url;
+});
+         
   }
 	
 	saveProfile()

@@ -11,7 +11,7 @@
 </ion-header>
 
 <ion-content   > 
-  <ion-list class="list-no-border"  *ngIf="userInfo" >
+  <ion-list class="list-no-border" inset  *ngIf="userInfo" >
 
     <ion-item-sliding class="card"   *ngFor="let Addresses of userInfo.Addresses;let i = index"   [hidden]="myVar" margin-top fab-center>
       <ion-item>
@@ -28,23 +28,12 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
- <ion-fab  right bottom>
-    <button ion-fab color="danger" [hidden]="myVar" (click)="EditAddress({
-				Address1:'',
-				Address2:'',
-				State:'',
-				City:'',
-				Country:'India',
-				Address3:'',
-				UserName:'',
-				Id:0,
-				IsDefault:false,
-				PostalCode:''
-				})"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+ 
   </ion-list> 
    
-
+<ion-fab  right bottom>
+    <button ion-fab color="danger" [hidden]="myVar" (click)="addNewAddress()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 
 <div class="container" [hidden]="!myVar">
 

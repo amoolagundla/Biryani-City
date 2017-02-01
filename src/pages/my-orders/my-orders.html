@@ -16,26 +16,19 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content padding class="cart gray-bg">  
-  <ion-list class="list-no-border animated slideInUp"   >
-    
-    <ion-item class="card "   *ngFor="let Addresses of orderViewModel;let i = index"    margin-top fab-center>
-      <ion-item>
-			<ion-thumbnail item-left>
-      <img src="{{Addresses.thumb}}" alt=""/>
-    </ion-thumbnail>
-        <p><small  class="text-danger"> {{Addresses.ProdcutName}}</small></p>
-<p><small  class="text-danger"> DeliveryDate :	{{Addresses.OrderDate}}</small> </p>
-	 <p><small  class="text-danger">Delivery Time :	{{Addresses.DeliveryTime}}</small></p> 
-	 
-     <p><small  class="text-danger">Total : Rs  {{Addresses.OrderTotal}}</small></p> 
-		  <ion-note item-right><small  class="text-danger">
-    {{Addresses.OrderStatus}}
-      </small></ion-note>
-      </ion-item>
-    
-    </ion-item>
-
-  </ion-list> 
-
+<ion-content padding class="cart gray-bg">  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+		</ion-refresher>
+  <ion-card>
+ 
+<ion-list  class=" animated slideInUp" >
+  <button ion-item *ngFor="let item of orderViewModel" (click)="itemSelected(item)" item-center>
+    <p><small class="text-danger"> {{item.Name}} </small></p>
+  <p><small class="text-danger"> {{item.OrderAddress}} </small></p>
+    <p><small class="text-danger"> ${{item.Total}} </small></p> 
+  </button> 
+ 
+</ion-list>
+ </ion-card>
 </ion-content>

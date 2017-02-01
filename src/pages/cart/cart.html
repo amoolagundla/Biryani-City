@@ -51,7 +51,7 @@
       </ion-item-options>
     </ion-item-sliding>
   <small  class="text-danger" style="margin-right: 24%;float:right">
-       Slide items to remove from cart
+       Slide items left to remove from cart
       </small>
   </ion-list>
 	 <ion-fab  center bottom>
@@ -62,12 +62,12 @@
 <!--Footer button-->
 <ion-footer class="cart-footer">
   <ion-title>
-    <small  class="text-danger">Rs </small>
+    <small  class="text-danger">$ </small>
      <small  class="text-danger">{{ total }}</small>
   </ion-title>
   <ion-buttons end *ngIf="total>0">
     <button ion-button (click)="buy()" color="danger">
-      BUY ALL
+      Checkout
     </button>
   </ion-buttons>
 </ion-footer>

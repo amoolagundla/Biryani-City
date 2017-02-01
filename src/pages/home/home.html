@@ -12,7 +12,7 @@
         <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-        <ion-title style="font-family: -webkit-pictograph;font-style: italic;">Biryani City</ion-title>
+        <ion-title style="font-family: -webkit-pictograph;" item-center>Biryani City</ion-title>
         <ion-buttons end>
             <button ion-button (click)="GoToCart()">
         <ion-icon name="ios-cart-outline"> <span small>({{ cartCount }})</span></ion-icon>
@@ -34,7 +34,7 @@
     <ion-refresher-content>
     </ion-refresher-content>
 		</ion-refresher>
- <ion-card *ngFor="let item of filteredProducts"   class="animated slideInUp" [hidden]="myVar" >
+         <ion-card *ngFor="let item of filteredProducts"   class="animated slideInUp" [hidden]="myVar" >
     
         
       <ion-card-content (click)="addCart(item)">
@@ -57,6 +57,15 @@
     </ion-card-content>    
 	
 </ion-card>
+        <div class="center" [hidden]="!myVar" >
+<h1 class="marbot15 wow fadeInUp animated animated" data-wow-delay="300ms" style="visibility: visible; animation-delay: 300ms; animation-name: slideInUp;">Biryani City</h1>
+
+<div class="tag padding-12-per animated slideInUp">We bring you the best of South &amp; North Indian Cuisine in Norristown, PA &amp; Allentown, PA.
+</div>
+
+
+</div>
+
 
     <section id="about" [hidden]="true">
         <div class="container">
@@ -71,7 +80,7 @@
         </div>
     </section>
 
-       
+       <div id="cat">
 
 <ion-card  *ngFor="let category of categories"  class="animated slideInUp" (click)="ViewCategory(category.Items,category.Name)" [hidden]="!myVar">
   
@@ -85,7 +94,8 @@
         </p> 
     </ion-card-content>
 </ion-card>
-<input type="text" value="{{email}}" id="email">
+</div>
+
 
 
  

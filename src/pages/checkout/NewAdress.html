@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Description
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div class="container" >
+<br/><br/>
+    <form #f="ngForm" novalidate (ngSubmit)="save(f.value, f.valid)">
+		<div class="form-group" [hidden]="true">      
+      <input type="text" class="form-control" 
+        name="Id" [(ngModel)]="address.Id" 
+        #Id="ngModel" required >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">     
+      <input type="text" class="form-control" 
+        name="UserName" [(ngModel)]="address.UserName" 
+        #UserName="ngModel"  >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">     
+      <input type="text" class="form-control" 
+        name="Country" [(ngModel)]="address.Country" 
+        #Country="ngModel"  >
+    
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+		<div class="form-group" [hidden]="true">       
+        <input type="text" class="form-control" 
+          name="Address3" [(ngModel)]="address.Address3"
+          #Address3="ngModel" >
+     
+      </div>
+    <div class="form-group">
+      <label>Street / Door Number </label>
+      <input type="text" class="form-control" 
+        name="Address1" [(ngModel)]="address.Address1" 
+        #Address1="ngModel" required >
+      <small [hidden]="Address1.valid || (Address1.pristine && !f.submitted)" class="text-danger">
+            Street / Door Number is required .
+          </small>
+      <!--<pre>{{name.errors | json}}</pre>-->
+    </div>
+     
+      <div class="form-group">
+        <label>Apt #/ Unit</label>
+        <input type="text" class="form-control" 
+          name="Address2" [(ngModel)]="address.Address2"
+          #Address2="ngModel" >
+       
+      </div>
+			
+			
+			
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-control" 
+          name="City" [(ngModel)]="address.City"
+          #City="ngModel" required>
+        <small [hidden]="City.valid || (City.pristine && !f.submitted)" class="text-danger">
+          City is required.
+        </small>
+      </div>
+       <div class="form-group">
+        <label>State</label>
+        <input type="text" class="form-control" 
+          name="State" [(ngModel)]="address.State"
+          #State="ngModel" required>
+        <small [hidden]="State.valid || (State.pristine && !f.submitted)" class="text-danger">
+          State is required.
+        </small>
+      </div>
+      <div class="form-group">
+        <label>Post code</label>
+        <input type="PostalCode" class="form-control" 
+          name="PostalCode" [(ngModel)]="address.PostalCode">
+      </div>
+   <div class="form-group">
+      <button type="submit" class="btn btn-block btn-danger" ng-click="SaveAddress(Addresses)">Save Address</button>
+      </div>
+    
+  </form>
+ 
+</div>
+
+		
+		</ion-content>

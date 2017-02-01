@@ -26,8 +26,8 @@ import {
     PushToken
 } from '@ionic/cloud-angular';
 // end import pages
-
-
+import { Events } from 'ionic-angular';
+declare var window;
     
 
   
@@ -58,7 +58,7 @@ public cartItemCount:any = 0;
    },
 		{
       title: 'Profile',
-      icon: 'ios-list-outline',
+      icon: 'ios-person-outline',
       count: 0,
       component: UserPage
     },{
@@ -84,9 +84,13 @@ public cartItemCount:any = 0;
 
   ];
 
-  constructor(public platform: Platform, private cartService: CartService ,public push: Push) {
+  constructor(public platform: Platform, private cartService: CartService ,public push: Push,public events:Events) {
     this.rootPage = HomePage;
-  
+   this.events.subscribe('UpdatePic',(data) => {
+
+         this.url=data.url;
+});
+        
    NativeStorage.getItem('userDetails').then((data) =>
    {
       this.url=data.url;
@@ -110,11 +114,19 @@ public cartItemCount:any = 0;
     this.nav.setRoot(page.component);
   }
  initializeApp() {
-    this.push.unregister();
+//     this.push.unregister();
+
+
+//     this.push.register().then((t: PushToken) => {
+//   return this.push.saveToken(t);
+// }).then((t: PushToken) => {
+//   console.log('Token saved:', t.token);
+// });
+
        this.platform.registerBackButtonAction(() => {
 
          if (!this.nav.canGoBack()) {
-           this.nav.setRoot(HomePage); 
+           window.plugins.appMinimize.minimize();
           }
           else
           {

@@ -7,8 +7,62 @@ page-home,
   ion-slides {
     height: auto;
   }
+
+
 }
 .card-background-page {
+    .center, .center-align {
+    text-align: center;
+    
+ 
+
+}
+.marbot15 {
+    margin-bottom: 15px;
+    font-family: -webkit-pictograph;
+    overflow-x: hidden;
+    font-size: 20px !important;
+    color:red;
+}
+
+.hr-line {
+    /* background: #E2E2E2; */
+    height: 1px;
+    position: relative;
+    width: 28%;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-0%);
+    -webkit-transform: translateX(-50%) translateY(-0%);
+    -moz-transform: translateX(-50%) translateY(-0%);
+    -ms-transform: translateX(-50%) translateY(-0%);
+    margin: 30px 0;
+}
+.padding-12-per {
+    padding: 0px 12%;
+}
+.tag {
+    font-size: 16px;
+    color: #212121;
+    letter-spacing: 1px;
+    font-weight: 300;
+    line-height: 26px;
+    margin-top: 0;
+}
+.collapsible {
+    box-shadow: none;
+    border: none;
+}
+.martop30 {
+    margin-top: 30px;
+}
+.collapsible {
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    margin: 0.5rem 0 1rem 0;
+}
+
 .item-tittle
 {
     font-size: 16px;
@@ -52,6 +106,8 @@ page-home,
     float: right;
     margin-top: 4%;
     }
+
+    #cat 
   ion-card {
       
     float: left;
@@ -563,12 +619,12 @@ table {
 
 /* iPads (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-ion-card {   display: none!important; }
+
 }
 
 /* iPads (landscape) ----------- */
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
-ion-card {   display: none!important; }
+
 }
 
 /* iPads (portrait) ----------- */
@@ -587,12 +643,12 @@ iPad 3
 }
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1224px) {
- ion-card {   display: none!important; }
+ 
 }
 
 /* Large screens ----------- */
 @media only screen  and (min-width : 1824px) {
- ion-card {   display: none!important; }
+ 
 }
 
 /* iPhone 4 ----------- */

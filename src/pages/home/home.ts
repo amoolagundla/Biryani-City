@@ -32,6 +32,7 @@ import {
     LocalNotifications
 
 } from 'ionic-native';
+import {Events} from 'ionic-angular';
 declare var $: any;
 /*
  Generated class for the LoginPage page.
@@ -54,7 +55,7 @@ export class HomePage   {
     public categories: any;
     public cartCount: any = 0;
     public abc: any;
-    public email: any = '';
+    public email: any = 'sys';
     public product: any = '';
     public products: any=[];
      public filteredProducts: any=[];
@@ -64,7 +65,7 @@ export class HomePage   {
         private valuesService: ValuesService,
         private cartService: CartService,
         public storage: Storage,
-        public alertController: AlertController, public navParams: NavParams) {
+        public alertController: AlertController, public navParams: NavParams,public events:Events) {
             this.showList = false;
              this.cartService
             .statusChanged
@@ -72,8 +73,12 @@ export class HomePage   {
                 this.cartCount = data.totalCount;
              
 
+            },err=>
+            {
+
             });
-           
+              
+       
             let cart = this.cartService.getCart();
             this.cartCount=cart.length;
           
@@ -88,30 +93,37 @@ export class HomePage   {
           let users =JSON.parse(user);
           this.email = users.Email;
             this.valuesService.UpdateUserInfo(users);
-        }, error => {
 
-            this.nav.setRoot(LoginPage);
-        });
-        // subscribe to cart changes
-       
-       
-
-        // Get an observable for events emitted on this channel
+             // Get an observable for events emitted on this channel
         if (this.email != '' || this.email!=undefined ||  this.email!=null) {
             $.connection.hub.url = 'http://99pumba.azurewebsites.net/signalr/hubs';
             let chat = $.connection.chatHub;
+            let th = this;
             let em = this.email;
             // Start the connection.
+              this.events.subscribe('NewOrder',() => {
+             chat.server.sendToSpecific(em,'You have a new order','sys@gmail.com');
+        });
 
+                 this.events.subscribe('SendMessage',(data) => {
+                       console.log(data)
+                          chat.server.sendToSpecific('sys','Your Order is Ready to Pickup',data.to);
+         
+
+});
             // Create a function that the hub can call to broadcast chat messages.
             chat.client.broadcastMessage = function(name, message) {
-                var msg = JSON.parse(message);
+                  
+                 
+
+               // var msg = JSON.parse(message);
+            // alert(message)
                 // Schedule a sinle notification
                 LocalNotifications.schedule({
                     id: 1,
-                    title: msg.title,
-                    text: msg.message,
-                    icon: msg.logo
+                    title: 'Biryani City',
+                    text: message,
+                    icon: 'res://sicon.png'
                 });
             };
 
@@ -120,12 +132,35 @@ export class HomePage   {
             }).done(function() {
                 //Calls the notify method of the server
 
-                chat.server.notify($('#email').val(), $.connection.hub.id);
+                chat.server.notify(em, $.connection.hub.id);
 
 
             });
 
+            $.connection.hub.disconnected(function() {
+    setTimeout(function() {
+         $.connection.hub.start({
+                withCredentials: false
+            }).done(function() {
+                //Calls the notify method of the server
+
+                chat.server.notify(em, $.connection.hub.id);
+
+
+            });
+    }, 5000); // Re-start connection after 5 seconds
+});
+
         }
+        }, error => {
+
+            this.nav.setRoot(LoginPage);
+        });
+        // subscribe to cart changes
+       
+     
+       
+        
     }
 
 
@@ -203,7 +238,7 @@ initializeItems() {
         });
     });
   
-   console.log(this.products);
+ 
   }
     getCatogoriesProductName(ev) {
      
@@ -218,11 +253,7 @@ this.myVar=false;
     if (val && val.trim() != '') {
         this.filteredProducts = this.products.filter(
           book => book.ProdcutName.toLowerCase().indexOf(val.toLowerCase()) > -1);
-    //   this.products.forEach((item) => {
-         
-    //     if (item.ProdcutName.toLowerCase().indexOf(val.toLowerCase()) > -1)
-    //     this.filteredProducts.push(item);
-    //   })
+   
     }
     else
     {

@@ -23,77 +23,51 @@ export class ValuesService {
     };
 		
     getAll() {
-       return this.http.get('api/UserInfo').map<UserInfo>((response: Response) => response.json())  .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
+       return this.http.get('api/UserInfo').map<UserInfo>((response: Response) => response.json());
 	
     }
 
     getValues() {
-        return this.http.get('api/Values').map((response: Response) => response.json())  .catch((error: any) => {
-          
-          return Observable.throw(error.message || error);
-      });
+        return this.http.get('api/Values').map((response: Response) => response.json());
+
+    }
+
+     getUserOrders(Id:any) {
+        return this.http.get('api/Orders/GetUserOrders/'+Id).map((response: Response) => response.json());
+
+    }
+      getUserOrderDetails(Id:any) {
+        return this.http.get('api/Orders/GetUserOrderDetails/'+Id).map((response: Response) => response.json());
 
     }
 		UpdateProfile(userInfo:UserInfo) {
-        return this.http.post('api/UserInfo',JSON.stringify(userInfo)).map((response: Response) => response.json())  .catch((error: any) => {
-      
-          return Observable.throw(error.message || error);
-      });
+        return this.http.post('api/UserInfo',JSON.stringify(userInfo)).map((response: Response) => response.json()) ;
 
     }
 		
 		  UpdateAddress(Address:any) {
-        return this.http.put('api/Addresses/'+Address.Id,JSON.stringify(Address)).map((response: Response) => response)  .catch((error: any) => {
-        
-          return Observable.throw(error.message || error);
-      });
+        return this.http.put('api/Addresses/'+Address.Id,JSON.stringify(Address)).map((response: Response) => response);
 
     }
 		InsertAddress(Address:any) {
-        return this.http.post('api/Addresses/',JSON.stringify(Address)).map((response: Response) => response.json())  .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
+        return this.http.post('api/Addresses/',JSON.stringify(Address)).map((response: Response) => response.json());
 
     }
 			DeleteAddress(id:any) {
-        return this.http.delete('api/Addresses/'+id).map((response: Response) => response)  .catch((error: any) => {
-          
-          return Observable.throw(error.message || error);
-      });
+        return this.http.delete('api/Addresses/'+id).map((response: Response) => response);
 
     }
 		
 		Register(user:any) {
-        return this.http.post('api/Account/Register',user).map((response: Response) => response.json())
-				   .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
-
-     
+        return this.http.post('api/Account/Register',user).map((response: Response) => response.json());
     }
 		
 		RegisterExternal(user:any) {
-        return this.http.post('api/Account/RegisterExternal',user).map((response: Response) => response.json())
-				   .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
-
-     
+        return this.http.post('api/Account/RegisterExternal',user).map((response: Response) => response.json());
     }
 		
 		PostOrder(Order:any) {
-        return this.http.post('api/Orders',Order).map((response: Response) => response.json())
-				   .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
-
+        return this.http.post('api/Orders',Order).map((response: Response) => response.json());
      
     }
 		PostChangePassword(passwords:any) {
@@ -105,33 +79,19 @@ export class ValuesService {
 		 
 		
 	 getAllCategories() { 
-        return this.http.get('api/Categories').map((response: Response) => response.json())  .catch((error: any) => {
-        
-          return Observable.throw(error.message || error);
-      });
+        return this.http.get('api/Categories').map((response: Response) => response.json());
 
     }
 		 getAllProducts(id:any) {
-        return this.http.get('api/Products/'+id).map((response: Response) => response.json()) .catch((error: any) => {
-        
-          return Observable.throw(error.message || error);
-      });
-
-    }
+        return this.http.get('api/Products/'+id).map((response: Response) => response.json());
+     }
 
     GetByProductName(name:any) {
-        return this.http.get('api/Products/GetByProductName/'+name).map((response: Response) => response.json()) .catch((error: any) => {
-        
-          return Observable.throw(error.message || error);
-      });
-
+        return this.http.get('api/Products/GetByProductName/'+name).map((response: Response) => response.json())
     }
     RegisterExternalLogin(token:any,email:any)
     {
-         return this.http.RegisterExternalLogin(token,email,'api/Account/RegisterExternal/').map((response: Response) => response.json()) .catch((error: any) => {
-        
-          return Observable.throw(error.message || error);
-      });
+         return this.http.RegisterExternalLogin(token,email,'api/Account/RegisterExternal/').map((response: Response) => response.json());
     }
 
      PostFacebookTokens(tok:any)
@@ -140,10 +100,6 @@ export class ValuesService {
       {
           token :tok
       };
-         return this.http.post('api/FacebookTokens',JSON.stringify(facebookTokens)).map((response: Response) => response.json())
-				   .catch((error: any) => {
-         
-          return Observable.throw(error.message || error);
-      });
+         return this.http.post('api/FacebookTokens',JSON.stringify(facebookTokens)).map((response: Response) => response.json());
     }
 }

@@ -16,6 +16,7 @@ import {HttpClient} from '../services/HttpClient';
 // end import services
 // end import services
 // import pages
+import { ModalContentPage } from '../pages/checkout/ModalContentPage';
 import {AboutPage} from '../pages/about/about';
 import {ChangePasswordPage} from '../pages/change-password/change-password';
 import {MyOrdersPage} from '../pages/my-orders/my-orders';
@@ -39,6 +40,7 @@ import {LogoutPage} from '../pages/logout/logout';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { SignalRService } from '../services/signalRService';
 import{LocationTracker} from '../services/LocationTracker';
+import {OrderDetailsPage} from '../pages/order-details/order-details';
 // end import pages
 
 const cloudSettings: CloudSettings = {
@@ -80,7 +82,9 @@ const cloudSettings: CloudSettings = {
     UserPage,
 		LogoutPage,
 		MyOrdersPage,
-		ChangePasswordPage
+		ChangePasswordPage,
+    OrderDetailsPage,
+    ModalContentPage
   ],
   imports: [
     IonicModule.forRoot(MyApp,{tabsPlacement: 'top'}),  CloudModule.forRoot(cloudSettings),
@@ -107,7 +111,9 @@ const cloudSettings: CloudSettings = {
     SettingPage,
     UserPage,
 		MyOrdersPage,
-		ChangePasswordPage
+		ChangePasswordPage,
+    OrderDetailsPage,
+    ModalContentPage
   ],
   providers: [
 	Storage ,

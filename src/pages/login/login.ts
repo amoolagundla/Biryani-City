@@ -70,7 +70,7 @@ export class LoginPage {
           appScope: ["email"]
         })*/
 
-    public username: string = 'am8215@gmail.com';
+    public username: string = '';
     public token: string;
     public user: User;
     public loading: any = this.loadingCtrl.create({
@@ -78,7 +78,7 @@ export class LoginPage {
         dismissOnPageChange: true
     });
     FB_APP_ID: number = 1835538836698571;
-    public password: string = 'leelaAb502!';
+    public password: string = '';
     constructor(public nav: NavController,
         private authenticationService: AuthenticationService,
         public loadingCtrl: LoadingController,
@@ -100,8 +100,22 @@ export class LoginPage {
            this.storage.remove('UserInfo');
            
       
-
+   GooglePlus.logout().then(
+					function (msg) {
+						
+					},
+					function(fail){
+						console.log(fail);
+					}
+				);
         
+         Facebook.logout().then(()=>{
+          
+        },
+        err=>{
+      
+        });
+
         this.user = _user;
     
         
@@ -218,14 +232,7 @@ export class LoginPage {
         
         let nav = this.nav;
         let glog =this;
-         GooglePlus.logout().then(
-					function (msg) {
-						
-					},
-					function(fail){
-						console.log(fail);
-					}
-				);
+      
  
         GooglePlus.login({
                 
@@ -234,10 +241,12 @@ export class LoginPage {
             })
             .then(function(user) {
                                      let at =  JSON.stringify(user);
+                                   
                                      let userDetails ={
                                          url:user.imageUrl,
                                          name:user.givenName
                                      };
+                                       glog.events.publish("UpdatePic",{pic:userDetails.url});
                                      NativeStorage.setItem('userDetails',userDetails).then()
                                         glog.Googlelogin(at);                               
               
@@ -284,18 +293,14 @@ export class LoginPage {
         this.valuesService.getAll()
             .subscribe(
                 data => {
-
+                       
                     this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
                      //   this.getCatogories();
                         NativeStorage.remove('at');
                          this.loading.dismiss();
-                           this.nav.setRoot(HomePage,{ email: data.email});
-                        //  this.push.unregister();          
-                        // this.push.register().then((t: PushToken) => {
-                        //     return this.push.saveToken(t);
-                        // }).then((t: PushToken) => {
                          
-                        // });
+                           this.nav.setRoot(HomePage,{ email: data.Email});
+                    
                     }, error => {
 
                     });
@@ -348,13 +353,13 @@ export class LoginPage {
               platform.facebooklogin(at);
          
         //now we have the users info, let's save it in the NativeStorage
-
+                
           let userDetails ={
                                          url:"https://graph.facebook.com/" + userId + "/picture?type=large",
                                          name:''
                                      };
 
-
+platform.events.publish("UpdatePic",{pic:userDetails.url});
         NativeStorage.setItem('userDetails',userDetails)
         .then(function(){
          

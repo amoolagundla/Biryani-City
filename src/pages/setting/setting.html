@@ -17,14 +17,13 @@
 
 <ion-content>
   <!-- Cover and profile picture --> <!-- Cover and profile picture -->
-  <div class="profile-cover">
-   <div text-center padding-top padding-bottom class="primary-bg menu-left">
-      <a menuClose >
-        <img class="profile-picture" src="{{url}}">
-        <h4 color="light">{{name}}</h4>
-      </a>
-    </div>
-  </div>  
+  <img class="profile-picture" ng-reflect-src="assets/img/4.jpg" src="assets/img/4.jpg" style="
+    float: right;
+    margin-right: 39%;
+    margin-top: 7%;
+">
+       
+  
 
   <!-- User settings -->
   <ion-list class="list-full-border">
@@ -44,22 +43,19 @@
     </ion-item>  
 		
   </ion-list>
-</ion-content>
-
-<!--bottom buttons-->
-<ion-footer>
-  <ion-grid no-padding>
-    <ion-row class="item-button-group" no-padding>
-      <ion-col no-padding>
+   <ion-grid inset >
+    <ion-row class="item-button-group" >
+      <ion-col >
         <button ion-button block color="gray">
           Cancel
         </button>
       </ion-col>
-      <ion-col no-padding>
+      <ion-col >
         <button ion-button block (click)="saveProfile()">
           Save
         </button>
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-content>
+

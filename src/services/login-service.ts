@@ -88,10 +88,6 @@ public baseurl:any ='http://99pumba.azurewebsites.net/';
             })
       
     }
-          private handleError(error:Response)
-					{
-						return Observable.throw(error.json().error ||'server error');
-					}
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

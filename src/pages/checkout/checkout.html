@@ -29,29 +29,41 @@
 
     <ion-item>
       <ion-label>
-          <p class="text-hint"> 
+        
          Pay with Paypal
-        </p>
+        
       </ion-label>
       <ion-radio (click)="GetPayMent(1)"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>
-        <p class="text-hint">   Cash/Use credit card on delivery</p>
-        <p class="text-hint">
-          Free
-        </p>
+       Cash/Use credit card on delivery/pickup
+        
       </ion-label>
       <ion-radio (click)="GetPayMent(2)"></ion-radio>
     </ion-item>
 
   </ion-list>
 
-  <!--shipping address--> <div margin>Select delivery address</div>  
+  <ion-list class="list-full-border card" margin radio-group>
 
-  <ion-list class="list-full-border card" margin radio-group >
-   
+    <ion-item>
+        <ion-checkbox color="red" checked="true" [(ngModel)]="delivery"></ion-checkbox>
+      <ion-label>Do you wish this to be delivered ??</ion-label>
+
+    </ion-item>
+
+
+  </ion-list>
+
+
+
+
+  <!--shipping address--> 
+  <ion-list class="list-full-border card" margin radio-group [hidden]="!delivery">
+   <div margin>Select delivery address</div>  
+
     <ion-item *ngFor="let Addresses of userInfo.Addresses;">
       <ion-label>
        <br/>
@@ -67,7 +79,7 @@
 	 
 	 </ion-list>  
 	 
-	  <ion-list class="list-full-border card" margin radio-group> 
+	  <ion-list class="list-full-border card" margin radio-group [hidden]="!delivery"> 
 		<ion-item (click)="addAddress()"> 
 	 <ion-label>
 	 <p id="p1" class="text-danger pull-center">Fetch Your Address based On location</p>  <small  class="text-danger pull-left">click this, to add this address.  </small>
@@ -76,17 +88,16 @@
       Add this Address
     </button> 
 	 </ion-item> 
- 	<ion-item *ngIf="userInfo.Addresses.length==0"> 
+ 
+  </ion-list>  
+  <ion-list class="list-full-border card" margin radio-group [hidden]="!delivery"> 
+    	<ion-item > 
   <button   class="btn btn-block  btn-danger" item-center  (click)="addNewAddress()" >
       Add a new  Address
     </button> 
     	 </ion-item> 
-  </ion-list>  
-<small class="text-danger " item-center="" style="
-    float: right;
-    margin-right: 45%;
-    align-content: center;
-">It takes total {{dutation}} mins to deliver to this Address </small>
+    </ion-list>
+
     </div>
 </ion-content>
 

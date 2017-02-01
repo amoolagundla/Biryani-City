@@ -28,6 +28,8 @@ import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
 import {PayPal, PayPalPayment, PayPalConfiguration} from "ionic-native";
 import{LocationTracker} from '../../services/LocationTracker';
+import { ModalController,Events } from 'ionic-angular';
+import { ModalContentPage } from './ModalContentPage';
 declare var google;
 declare const RazorpayCheckout: any;
 
@@ -47,7 +49,7 @@ export class CheckoutPage {
     public DeliveyTime: any='12PM';
     public DeliveyDate: string = new Date().toISOString();
     public userInfo: UserInfo;
-    public addressId: any;
+    public addressId: any=0;
     public paymentMethod: any = 0;
     public myVar: boolean = false;
     public totalAddress: any;
@@ -58,6 +60,7 @@ export class CheckoutPage {
         DeliveryDate: ''
 
     };
+    public delivery:boolean =false;
     public address: any = {
         Address1: '',
         Address2: '',
@@ -137,9 +140,14 @@ export class CheckoutPage {
         public navParams: NavParams,
         public cartService: CartService,
         private valuesService: ValuesService,
-        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,public locationTracker: LocationTracker) {
+        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,public locationTracker: LocationTracker,
+		public modalCtrl: ModalController,public events:Events) {
          
-        
+        this.events.subscribe('myEvent',() => {
+
+         this.getUserInfosw();
+
+});
          
         this.storage.get('UserInfo').then((currentUser) => {
             this.userInfo = SerializationHelper.toInstance(new UserInfo(), currentUser);
@@ -157,10 +165,26 @@ export class CheckoutPage {
 
     }
 
-
+getUserInfosw()
+  {
+    this.valuesService.getAll()
+            .subscribe(
+                data => {   
+                     this.userInfo = data;
+                this.storage.set('UserInfo',JSON.stringify(data)).then(()=>{
+                     this.events.publish('UpdateUserInfo');
+                },err=>{});
+                }, 
+                error => {
+                 
+                  
+                });
+                
+  }
 addNewAddress()
 {
-    this.nav.push(AddressPage,{goTocart:true});
+    let modal = this.modalCtrl.create(ModalContentPage);
+              modal.present();
 }
 
 
@@ -219,10 +243,7 @@ addNewAddress()
             });
         
     }
-    GoToAddress() {
-
-        this.nav.push(AddressPage);
-    }
+    
     // place order button click
     buy() {
         // show alert this.valuesService.PostOrder(OrdDetail).subscribe(
@@ -247,13 +268,63 @@ addNewAddress()
         }        
            
 
-        } else {
+        } 
+        else if(this.delivery==false && this.addressId==0 && this.paymentMethod!=1)
+        {
+              this.loading.present();
+            let OrderDetail = {
+                DeliveryTime: this.DeliveyTime,
+                DeliveryDate: this.DeliveyDate,
+                cart: this.cartService.getCart(),
+                AddressId: this.addressId,
+                PaymentMethod: this.paymentMethod
+            };
+            this.PlaceOrder(OrderDetail);
+        }
+        else if(this.delivery==true && this.addressId>0 && this.paymentMethod==1)
+        {
+             this.onSubmit();
+        }
+        else {
+            let msg= 'please select ';
+               if(this.delivery== true)
+               {
+                    if(this.addressId <=0||this.addressId==undefined)
+                        msg +=' address,';
+               }
+               else
+               {
+                   this.addressId=0;
+               }
+               
+
+                if(this.paymentMethod==0)
+                msg+='payment method';
+           
+             if(msg!='please select ')   
+             this.showLoginAlert(msg);
 
         }
 
     }
+   public showLoginAlert(msg:any)
+	{
+		let alert = this.alertController.create({
+      title: 'Alert',
+      subTitle: msg, 
+      buttons: [
+        {
+          text: 'OK',
+          handler: data => {
+          
+		
+          }
+        }
+      ]
+    });
 
-
+    alert.present();
+	}
     public onSubmit() {
         // var amt = this.total * 100;
         // var options = {
@@ -324,7 +395,7 @@ addNewAddress()
       //     "intent": "sale"
       //   }
       // }
-        alert(JSON.stringify(payment));
+        
        th.loading.present();
             let OrderDetail = {
                 DeliveryTime: th.DeliveyTime,
@@ -352,12 +423,13 @@ addNewAddress()
     public showAlert() {
         let alert = this.alertController.create({
             title: 'Info',
-            subTitle: 'Your order has been sent.',
+            subTitle: 'Your order has been sent. We will notify when your order is ready',
             buttons: [{
                 text: 'OK',
                 handler: data => {
 
                     this.cartService.ClearCart();
+                      this.events.publish('NewOrder');
                     this.nav.setRoot(HomePage);
                 }
             }]
@@ -376,8 +448,7 @@ addNewAddress()
     }
 public placeOrder(orderDetail:any)
 {
-      this.loading.dismiss();
-        this.loading.present();
+     
      this.valuesService.PostOrder(orderDetail).subscribe(
                 data => {
                     this.getUserInfo();
