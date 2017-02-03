@@ -49,8 +49,10 @@
   <ion-list class="list-full-border card" margin radio-group>
 
     <ion-item>
-        <ion-checkbox color="red" checked="true" [(ngModel)]="delivery"></ion-checkbox>
-      <ion-label>Do you wish this to be delivered ??</ion-label>
+     
+            <ion-label>Do you wish this to be delivered ??</ion-label>     
+            <ion-toggle [(ngModel)]="delivery"></ion-toggle>
+       
 
     </ion-item>
 
@@ -62,6 +64,7 @@
 
   <!--shipping address--> 
   <ion-list class="list-full-border card" margin radio-group [hidden]="!delivery">
+    <br/>
    <div margin>Select delivery address</div>  
 
     <ion-item *ngFor="let Addresses of userInfo.Addresses;">

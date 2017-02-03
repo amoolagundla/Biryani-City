@@ -32,8 +32,15 @@
     </ion-card-content>
   <small class="text-danger" *ngIf="orderInfo.AddressId">This Order is CarryOut</small>
 </ion-card>
- 
-   <button   class="btn  btn-danger " item-center  (click)="NotifyUser()" [hidden]="!ifsys">
-      Notify User
+ <ion-grid inset >
+    <ion-row class="item-button-group" >
+     
+      <ion-col >
+        <button   class="btn  btn-danger animated slideInUp" item-center  (click)="NotifyUser()" [hidden]="!ifsys">
+     Notify user that the Order is  ready for pick up
     </button> 
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
 </ion-content>

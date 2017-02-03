@@ -256,7 +256,7 @@ addNewAddress()
        }
         else
         {
-             this.loading.present();
+             
             let OrderDetail = {
                 DeliveryTime: this.DeliveyTime,
                 DeliveryDate: this.DeliveyDate,
@@ -264,14 +264,16 @@ addNewAddress()
                 AddressId: this.addressId,
                 PaymentMethod: this.paymentMethod
             };
-            this.PlaceOrder(OrderDetail);
+            alert(this.addressId)
+            //this.loading.present();
+           // this.PlaceOrder(OrderDetail);
         }        
            
 
         } 
         else if(this.delivery==false && this.addressId==0 && this.paymentMethod!=1)
         {
-              this.loading.present();
+           
             let OrderDetail = {
                 DeliveryTime: this.DeliveyTime,
                 DeliveryDate: this.DeliveyDate,
@@ -279,11 +281,14 @@ addNewAddress()
                 AddressId: this.addressId,
                 PaymentMethod: this.paymentMethod
             };
-            this.PlaceOrder(OrderDetail);
+               alert(this.addressId)
+              // this.loading.present();
+         //   this.PlaceOrder(OrderDetail);
         }
         else if(this.delivery==true && this.addressId>0 && this.paymentMethod==1)
         {
-             this.onSubmit();
+               alert(this.addressId)
+           //  this.onSubmit();
         }
         else {
             let msg= 'please select ';
