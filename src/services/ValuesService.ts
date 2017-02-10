@@ -21,7 +21,19 @@ export class ValuesService {
 
         return this.UserInfo;
     };
-		
+         UpdateOrder(Id:string,status:string) {
+       return this.http.get('api/Orders/UpdateOrder/'+Id+'/'+status).map((response: Response) => response.json());
+	
+    }
+         SaveToken(tok:any) {
+              let facebookTokens=
+      {
+          ID:0,
+          token :tok
+      };
+       return this.http.post('api/PushTokens/SavePushTokens/',JSON.stringify(facebookTokens)).map((response: Response) => response.json());
+	
+    }
     getAll() {
        return this.http.get('api/UserInfo').map<UserInfo>((response: Response) => response.json());
 	

@@ -22,11 +22,14 @@
 		</ion-refresher>
   <ion-card>
  
-<ion-list  class=" animated slideInUp" >
+<ion-list  class=" animated slideInUp" inset>
   <button ion-item *ngFor="let item of orderViewModel" (click)="itemSelected(item)" item-center>
     <p><small class="text-danger"> {{item.Name}} </small></p>
-  <p><small class="text-danger"> {{item.OrderAddress}} </small></p>
+  <p *ngIf="item.OrderAddress!=null"><small class="text-danger"> {{item.OrderAddress}} </small></p>
+    <p *ngIf="item.OrderAddress==null"><small class="text-danger"> Carryout Order </small></p>
     <p><small class="text-danger"> ${{item.Total}} </small></p> 
+    <p><small class="text-danger"> {{item.OrderStatus}} </small></p> 
+    
   </button> 
  
 </ion-list>

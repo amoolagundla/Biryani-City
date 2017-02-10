@@ -4,6 +4,10 @@ import {LoginPage} from "../login/login";
 import { ValuesService } from '../../services/ValuesService';
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
+import {
+    AlertController
+    
+} from 'ionic-angular';
 /*
  Generated class for the LoginPage page.
 
@@ -37,7 +41,7 @@ export class RegisterPage implements OnInit {
 	 let addre = this.navParams.get('address');
 	
 	 if(addre !=null)
-	 {		  console.log(JSON.parse(addre));
+	 {		 
 		 this.user=JSON.parse(addre);
 	 }
   }

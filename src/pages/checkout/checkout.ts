@@ -264,9 +264,9 @@ addNewAddress()
                 AddressId: this.addressId,
                 PaymentMethod: this.paymentMethod
             };
-            alert(this.addressId)
-            //this.loading.present();
-           // this.PlaceOrder(OrderDetail);
+           // alert(this.addressId)
+            this.loading.present();
+           this.PlaceOrder(OrderDetail);
         }        
            
 
@@ -281,14 +281,14 @@ addNewAddress()
                 AddressId: this.addressId,
                 PaymentMethod: this.paymentMethod
             };
-               alert(this.addressId)
-              // this.loading.present();
-         //   this.PlaceOrder(OrderDetail);
+             //  alert(this.addressId)
+              this.loading.present();
+           this.PlaceOrder(OrderDetail);
         }
         else if(this.delivery==true && this.addressId>0 && this.paymentMethod==1)
         {
-               alert(this.addressId)
-           //  this.onSubmit();
+           //    alert(this.addressId)
+             this.onSubmit();
         }
         else {
             let msg= 'please select ';

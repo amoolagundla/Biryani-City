@@ -30,7 +30,7 @@
     
         </p> 
     </ion-card-content>
-  <small class="text-danger" *ngIf="orderInfo.AddressId">This Order is CarryOut</small>
+  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null">This Order is CarryOut</small>
 </ion-card>
  <ion-grid inset >
     <ion-row class="item-button-group" >

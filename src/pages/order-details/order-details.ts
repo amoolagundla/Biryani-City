@@ -62,7 +62,21 @@ export class OrderDetailsPage {
 
   NotifyUser()
   {
-     this.events.publish('SendMessage',{to:this.orderInfo.Email});
+    this.valService.UpdateOrder(this.orderInfo.OrderId,"1").subscribe(data=>
+   {
+           let alert = this.alrt.create({
+                            title: 'Order ',
+                            subTitle: 'Notified',
+                            buttons: ['Dismiss']
+                        });
+                        alert.present();
+   },err=>
+   {
+             
+   })
+
+
+    // this.events.publish('SendMessage',{to:this.orderInfo.Email});
   }
 
 }

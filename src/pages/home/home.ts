@@ -101,22 +101,18 @@ export class HomePage   {
             let th = this;
             let em = this.email;
             // Start the connection.
-              this.events.subscribe('NewOrder',() => {
-             chat.server.sendToSpecific(em,'You have a new order','sys@gmail.com');
-        });
+             
 
                  this.events.subscribe('SendMessage',(data) => {
-                       console.log(data)
-                          chat.server.sendToSpecific('sys','Your Order is Ready to Pickup',data.to);
+                      
+                          chat.server.sendToSpecific('sys@gmail.com','Your Order is Ready to Pickup',data.to);
          
 
 });
             // Create a function that the hub can call to broadcast chat messages.
             chat.client.broadcastMessage = function(name, message) {
                   
-                 
-
-               // var msg = JSON.parse(message);
+                               // var msg = JSON.parse(message);
             // alert(message)
                 // Schedule a sinle notification
                 LocalNotifications.schedule({

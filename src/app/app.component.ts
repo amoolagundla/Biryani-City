@@ -12,10 +12,13 @@ import {UserPage} from '../pages/user/user';
 import {AboutPage} from '../pages/about/about';
 import {LoginPage} from '../pages/login/login';
 import{CartService} from '../services/cart-service';
-
+import {
+    ValuesService
+} from '../services/ValuesService';
 import {
     
-    NativeStorage
+    NativeStorage,
+    LocalNotifications
     
     
      
@@ -84,7 +87,7 @@ public cartItemCount:any = 0;
 
   ];
 
-  constructor(public platform: Platform, private cartService: CartService ,public push: Push,public events:Events) {
+  constructor(public platform: Platform, private cartService: CartService ,public push: Push,public events:Events,  private valuesService: ValuesService) {
     this.rootPage = HomePage;
    this.events.subscribe('UpdatePic',(data) => {
 
@@ -100,7 +103,7 @@ public cartItemCount:any = 0;
    {
 
    });
-    platform.ready().then(() => {
+    this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
@@ -114,14 +117,34 @@ public cartItemCount:any = 0;
     this.nav.setRoot(page.component);
   }
  initializeApp() {
-//     this.push.unregister();
+   this.push.unregister();
 
 
-//     this.push.register().then((t: PushToken) => {
-//   return this.push.saveToken(t);
-// }).then((t: PushToken) => {
-//   console.log('Token saved:', t.token);
-// });
+    this.push.register().then((t: PushToken) => {
+  return this.push.saveToken(t);
+}).then((t: PushToken) => {
+     this.valuesService.SaveToken(t.token).subscribe(()=>
+  {
+  },err=>
+  {
+  });
+    
+  console.log('Token saved:', t.token);
+});
+
+
+this.push.rx.notification()
+  .subscribe((msg) => {
+   
+    let ms =msg;
+   LocalNotifications.schedule({
+                    id: 1,
+                    title: ms.title,
+                    text: ms.text,
+                    icon: 'res://sicon.png'
+                });
+  
+  });
 
        this.platform.registerBackButtonAction(() => {
 

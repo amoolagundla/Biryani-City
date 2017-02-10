@@ -17,16 +17,16 @@
       </button> 
     </ion-buttons>
   </ion-navbar>
-
-</ion-header>
-
-<ion-content>
-  <ion-searchbar 
+<ion-searchbar 
     placeholder="Search........ "
   [showCancelButton]="true"
   (ionInput)="getCatogoriesProductName($event)"
   (ionCancel)="onCancel($event)">
 </ion-searchbar>
+</ion-header>
+
+<ion-content>
+  
 <div  *ngIf="showList">
  <ion-card *ngFor="let item of filteredProducts"  class="animated slideInUp" >
     

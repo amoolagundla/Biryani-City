@@ -19,17 +19,17 @@
       </button>
         </ion-buttons>
     </ion-navbar>
-
-</ion-header>
-
-
-<ion-content class="card-background-page" >
- <ion-searchbar 
+<ion-searchbar  class="bar-light bar-subheader"
     placeholder="Start Ordering"
   [showCancelButton]="true"
   (ionInput)="getCatogoriesProductName($event)"
   (ionCancel)="onCancel($event)">
 </ion-searchbar>
+</ion-header>
+
+
+<ion-content class="card-background-page" >
+
 <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content>
     </ion-refresher-content>
