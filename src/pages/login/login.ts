@@ -91,6 +91,8 @@ export class LoginPage {
           public push: Push,
            public events: Events) {
         
+
+        this.initializeApp();
    NativeStorage.remove('google');
       NativeStorage.remove('at');
            this.storage.remove('products');
@@ -160,6 +162,20 @@ export class LoginPage {
                 });
 
     }
+
+
+
+ initializeApp() {
+  
+
+
+
+       
+  
+      
+  }
+
+
     Googlelogin(acesstoken: any) {
 
         

@@ -34,8 +34,7 @@ export class OrderDetailsPage {
 	this.orderInfo = this.navParams.get('id');
      this.storage.get('UserInfo').then((user) => {
           let users =JSON.parse(user);
-          console.log(users.Email)
-      if(users.Email =='sys@gmail.com')
+             if(users.Email =='sys@gmail.com')
           {
             this.ifsys=true;
           }
@@ -48,7 +47,7 @@ export class OrderDetailsPage {
    {
           this.orderViewModel=data;
           
-          console.log(data);
+      
    },err=>
    {
              this.nav.pop();

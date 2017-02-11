@@ -17,8 +17,16 @@
 
 </ion-header>
 <ion-content padding class="cart gray-bg">  
-  
-<ion-card  *ngFor="let category of orderViewModel"  class="animated slideInUp" (click)="ViewCategory(category.Items,category.Name)" >
+  <p>  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null">This Order is CarryOut</small></p>
+    
+   
+      <ion-col >
+        <button   class="btn  btn-danger " item-center  (click)="NotifyUser()" [hidden]="!ifsys">
+     Notify user that the Order is  ready for pick up
+    </button> 
+      </ion-col>
+   
+<ion-card  *ngFor="let category of orderViewModel"   (click)="ViewCategory(category.Items,category.Name)" >
   
    
     <ion-card-content>
@@ -29,18 +37,10 @@
         <p> Price   <small class="text-danger"> {{ category.UnitPrice }} </small>
     
         </p> 
+       
     </ion-card-content>
-  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null">This Order is CarryOut</small>
+ 
 </ion-card>
- <ion-grid inset >
-    <ion-row class="item-button-group" >
-     
-      <ion-col >
-        <button   class="btn  btn-danger animated slideInUp" item-center  (click)="NotifyUser()" [hidden]="!ifsys">
-     Notify user that the Order is  ready for pick up
-    </button> 
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+ 
   
 </ion-content>
