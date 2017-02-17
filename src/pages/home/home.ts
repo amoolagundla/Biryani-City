@@ -95,59 +95,59 @@ export class HomePage   {
             this.valuesService.UpdateUserInfo(users);
 
              // Get an observable for events emitted on this channel
-        if (this.email != '' || this.email!=undefined ||  this.email!=null) {
-            $.connection.hub.url = 'http://99pumba.azurewebsites.net/signalr/hubs';
-            let chat = $.connection.chatHub;
-            let th = this;
-            let em = this.email;
-            // Start the connection.
+//         if (this.email != '' || this.email!=undefined ||  this.email!=null) {
+//             $.connection.hub.url = 'http://99pumba.azurewebsites.net/signalr/hubs';
+//             let chat = $.connection.chatHub;
+//             let th = this;
+//             let em = this.email;
+//             // Start the connection.
              
 
-                 this.events.subscribe('SendMessage',(data) => {
+//                  this.events.subscribe('SendMessage',(data) => {
                       
-                          chat.server.sendToSpecific('sys@gmail.com','Your Order is Ready to Pickup',data.to);
+//                           chat.server.sendToSpecific('sys@gmail.com','Your Order is Ready to Pickup',data.to);
          
 
-});
-            // Create a function that the hub can call to broadcast chat messages.
-            chat.client.broadcastMessage = function(name, message) {
+// });
+//             // Create a function that the hub can call to broadcast chat messages.
+//             chat.client.broadcastMessage = function(name, message) {
                   
-                               // var msg = JSON.parse(message);
-            // alert(message)
-                // Schedule a sinle notification
-                LocalNotifications.schedule({
-                    id: 1,
-                    title: 'Biryani City',
-                    text: message,
-                    icon: 'res://sicon.png'
-                });
-            };
+//                                // var msg = JSON.parse(message);
+//             // alert(message)
+//                 // Schedule a sinle notification
+//                 LocalNotifications.schedule({
+//                     id: 1,
+//                     title: 'Biryani City',
+//                     text: message,
+//                     icon: 'res://sicon.png'
+//                 });
+//             };
 
-            $.connection.hub.start({
-                withCredentials: false
-            }).done(function() {
-                //Calls the notify method of the server
+//             $.connection.hub.start({
+//                 withCredentials: false
+//             }).done(function() {
+//                 //Calls the notify method of the server
 
-                chat.server.notify(em, $.connection.hub.id);
-
-
-            });
-
-            $.connection.hub.disconnected(function() {
-    setTimeout(function() {
-         $.connection.hub.start({
-                withCredentials: false
-            }).done(function() {
-                //Calls the notify method of the server
-
-                chat.server.notify(em, $.connection.hub.id);
+//                 chat.server.notify(em, $.connection.hub.id);
 
 
-            });
-    }, 5000); // Re-start connection after 5 seconds
-});
+//             });
 
-        }
+//             $.connection.hub.disconnected(function() {
+//     setTimeout(function() {
+//          $.connection.hub.start({
+//                 withCredentials: false
+//             }).done(function() {
+//                 //Calls the notify method of the server
+
+//                 chat.server.notify(em, $.connection.hub.id);
+
+
+//             });
+//     }, 5000); // Re-start connection after 5 seconds
+// });
+
+//         }
         }, error => {
 
             this.nav.setRoot(LoginPage);

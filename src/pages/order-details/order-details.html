@@ -16,31 +16,33 @@
   </ion-navbar>
 
 </ion-header>
-<ion-content padding class="cart gray-bg">  
-  <p>  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null">This Order is CarryOut</small></p>
+<ion-content padding class="cart gray-bg" >  
+ 
     
    
-      <ion-col >
+    
+  <ion-list class="list-no-border" *ngIf="orderViewModel?.length>0">
+
+    <ion-item-sliding class="card" *ngFor="let category of orderViewModel; let i = index"   (click)="ViewCategory(category.Items,category.Name)" margin-top>
+      <ion-item>
+        <ion-thumbnail item-left>
+          <img src="{{ category.pic }}" alt="" />
+        </ion-thumbnail>      
+       <p><h4 class="text-danger">  {{ category.ProductName }}</h4>
+       <p class="text-danger"> <small class="text-danger">${{ category.UnitPrice }} X {{ category.Quantity }} </small>
+        </p>     
+       
+      </ion-item>
+     
+    </ion-item-sliding>
+    <ion-col >
+         <p>  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null" item-center>This Order is CarryOut</small></p><br/>
         <button   class="btn  btn-danger " item-center  (click)="NotifyUser()" [hidden]="!ifsys">
      Notify user that the Order is  ready for pick up
     </button> 
       </ion-col>
-   
-<ion-card  *ngFor="let category of orderViewModel"   (click)="ViewCategory(category.Items,category.Name)" >
-  
-   
-    <ion-card-content>
-        <p [hidden]="!ifsys"><h4 class="text-danger">  {{ orderInfo.Email }}</h4>
-       <p><h4 class="text-danger">  {{ category.ProductName }}</h4>
-       <p class="text-danger"> Qauntity   <small class="text-danger"> {{ category.Quantity }} </small>
-        </p> 
-        <p> Price   <small class="text-danger"> {{ category.UnitPrice }} </small>
-    
-        </p> 
-       
-    </ion-card-content>
- 
-</ion-card>
+  </ion-list> 
+
  
   
 </ion-content>

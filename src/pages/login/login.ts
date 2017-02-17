@@ -51,6 +51,7 @@ import {
 import {
     AndroidFingerprintAuth
 } from 'ionic-native';
+import {LoginPartialPage} from '../Login-Partial/Login-Partial';
 declare const facebookConnectPlugin: any;
 /*
  Generated class for the LoginPage page.
@@ -126,40 +127,12 @@ export class LoginPage {
          
     // go to register page
     register() {
-        this.nav.setRoot(RegisterPage);
+        this.nav.push(RegisterPage);
     }
     // login and go to home page
     login() {
 
-        this.loading.present();
-        this.authenticationService.login(this.username, this.password)
-            .subscribe(
-                data => {
-
-                    this.storage.remove('currentUser');
-                    this.storage.remove('userName');
-                 
-                    this.storage.set('currentUser', data.access_token).then(() => {
-
-
-                        this.getUserInfo();
-
-                    }, error => {
-
-                    });
-
-                },
-                error => {
-                    this.loading.dismiss();
-                 let er =error.json();
-				  let alert = this.alertCtrl.create({
-    title: 'Login Error ',
-    subTitle: er.error_description,
-    buttons: ['Dismiss']
-  });
-  alert.present();
-  this.nav.setRoot(LoginPage);
-                });
+       this.nav.push(LoginPartialPage);
 
     }
 
@@ -300,9 +273,15 @@ export class LoginPage {
             'password': this.password
         };
 
-        this.auth.login('custom', loginData).then(() => {
-            alert(JSON.stringify(this.user.data));
-        });
+        this.auth.login("basic")
+        .then((res) => {
+            if (res) {
+                console.log('Login success, rerouting');
+                this.nav.setRoot(HomePage);
+                //let nav2 = this.app.getComponent('nav');
+                //nav2.setRoot(HomePage);
+            }
+        })
     }
 
     getUserInfo() {

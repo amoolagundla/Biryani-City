@@ -117,7 +117,7 @@ public cartItemCount:any = 0;
     this.nav.setRoot(page.component);
   }
  initializeApp() {
-   
+
    this.push.unregister();
 
 
@@ -142,7 +142,7 @@ this.push.rx.notification()
                     id: 1,
                     title: ms.title,
                     text: ms.text,
-                    icon: 'res://android/icon.png'
+                    icon: 'res://sicon.png'
                 });
   
   });
