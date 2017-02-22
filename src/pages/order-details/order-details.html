@@ -35,12 +35,17 @@
       </ion-item>
      
     </ion-item-sliding>
-    <ion-col >
+    
          <p>  <small [hidden]="!ifsys" class="text-danger" *ngIf="orderInfo.AddressId==null" item-center>This Order is CarryOut</small></p><br/>
         <button   class="btn  btn-danger " item-center  (click)="NotifyUser()" [hidden]="!ifsys">
      Notify user that the Order is  ready for pick up
     </button> 
-      </ion-col>
+     
+        
+        <button   class="btn  btn-danger " item-center  (click)="OrderPicked()" [hidden]="!ifsys">
+     Order Picked Up
+    </button> 
+    
   </ion-list> 
 
  

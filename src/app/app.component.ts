@@ -118,34 +118,6 @@ public cartItemCount:any = 0;
   }
  initializeApp() {
 
-   this.push.unregister();
-
-
-    this.push.register().then((t: PushToken) => {
-  return this.push.saveToken(t);
-}).then((t: PushToken) => {
-     this.valuesService.SaveToken(t.token).subscribe(()=>
-  {
-  },err=>
-  {
-  });
-    
-  console.log('Token saved:', t.token);
-});
-
-
-this.push.rx.notification()
-  .subscribe((msg) => {
-   
-    let ms =msg;
-   LocalNotifications.schedule({
-                    id: 1,
-                    title: ms.title,
-                    text: ms.text,
-                    icon: 'res://sicon.png'
-                });
-  
-  });
 
        this.platform.registerBackButtonAction(() => {
 

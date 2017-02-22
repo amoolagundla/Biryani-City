@@ -24,8 +24,12 @@ import {
   templateUrl: 'my-orders.html'
 })
 export class MyOrdersPage {
+    private showList: boolean;
+       public myVar: boolean = false;
     public orderViewModel:any[];
+     public filtered:any[];
     public user:any;
+    public products:any[];
   constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController) {
 	
 
@@ -38,6 +42,7 @@ export class MyOrdersPage {
 	 this.valService.getUserOrders(this.user.Email =="sys@gmail.com"? 'null':this.user.Id).subscribe(data=>
    {
           this.orderViewModel=data;
+            this.initializeItems();
    },err=>
    {
              this.nav.pop();
@@ -59,8 +64,56 @@ export class MyOrdersPage {
 	}
 
   ionViewDidLoad() {
-   
+ 
   }
+
+
+initializeItems() {
+    this.products=[];
+    this.orderViewModel.forEach(element => {
+        this.products.push(element);
+    });
+}
+
+   getCatogoriesProductName(ev) {
+     
+      
+      // Show the results
+    this.showList = true;
+             
+this.myVar=true;
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+     
+        this.filtered = this.products.filter(
+      
+          item =>
+         
+         item.Email.indexOf(val) !== -1
+        );
+    console.log(this.filtered);
+    }
+    else
+    {
+        this.filtered = null;
+    }
+
+    }
+
+    onCancel(ev) {
+this.myVar=true;
+       
+    
+     // Reset the field
+    ev.target.value = '';
+    console.log("cancelled clicked");
+    }
+
+    
 doRefresh(refresher) {
 
 

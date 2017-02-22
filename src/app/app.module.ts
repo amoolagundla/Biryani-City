@@ -41,7 +41,7 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { SignalRService } from '../services/signalRService';
 import{LocationTracker} from '../services/LocationTracker';
 import {OrderDetailsPage} from '../pages/order-details/order-details';
-
+import{ResetEmailPage} from '../pages/reset-email/reset-email';
 import {LoginPartialPage} from '../pages/Login-Partial/Login-Partial';
 // end import pages
 
@@ -87,7 +87,8 @@ const cloudSettings: CloudSettings = {
 		ChangePasswordPage,
     OrderDetailsPage,
     ModalContentPage,
-    LoginPartialPage
+    LoginPartialPage,
+    ResetEmailPage
   ],
   imports: [
     IonicModule.forRoot(MyApp,{tabsPlacement: 'top'}),  CloudModule.forRoot(cloudSettings),
@@ -117,7 +118,8 @@ const cloudSettings: CloudSettings = {
 		ChangePasswordPage,
     OrderDetailsPage,
     ModalContentPage,
-    LoginPartialPage
+    LoginPartialPage,
+    ResetEmailPage
   ],
   providers: [
 	Storage ,

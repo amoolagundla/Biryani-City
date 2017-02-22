@@ -247,17 +247,39 @@ addNewAddress()
     // place order button click
     buy() {
         // show alert this.valuesService.PostOrder(OrdDetail).subscribe(
-       
-        if (this.addressId > 0 && this.paymentMethod > 0) {
-
-             if(this.paymentMethod == 1)
-        {
-           this.onSubmit();
+       if(this.delivery==false)
+       {
+           if(this.paymentMethod==1)
+           {
+               this.onSubmit();
+           }
+           else if(this.paymentMethod==2)
+           {
+                let OrderDetail = {
+                DeliveryTime: this.DeliveyTime,
+                DeliveryDate: this.DeliveyDate,
+                cart: this.cartService.getCart(),
+                AddressId: this.addressId,
+                PaymentMethod: this.paymentMethod
+            };
+          
+            this.loading.present();
+           this.PlaceOrder(OrderDetail);
+           }
+           else if(this.paymentMethod==0)
+           {
+                  this.showLoginAlert("Please select a payment option");
+           }
        }
-        else
-        {
-             
-            let OrderDetail = {
+       else 
+       {
+            if(this.paymentMethod==1 && this.addressId > 0)
+           {
+               this.onSubmit();
+           }
+           else if(this.paymentMethod==2 && this.addressId > 0)
+           {
+                let OrderDetail = {
                 DeliveryTime: this.DeliveyTime,
                 DeliveryDate: this.DeliveyDate,
                 cart: this.cartService.getCart(),
@@ -267,31 +289,10 @@ addNewAddress()
            // alert(this.addressId)
             this.loading.present();
            this.PlaceOrder(OrderDetail);
-        }        
-           
-
-        } 
-        else if(this.delivery==false && this.addressId==0 && this.paymentMethod!=1)
-        {
-           
-            let OrderDetail = {
-                DeliveryTime: this.DeliveyTime,
-                DeliveryDate: this.DeliveyDate,
-                cart: this.cartService.getCart(),
-                AddressId: this.addressId,
-                PaymentMethod: this.paymentMethod
-            };
-             //  alert(this.addressId)
-              this.loading.present();
-           this.PlaceOrder(OrderDetail);
-        }
-        else if(this.delivery==true && this.addressId>0 && this.paymentMethod==1)
-        {
-           //    alert(this.addressId)
-             this.onSubmit();
-        }
-        else {
-            let msg= 'please select ';
+           }
+           else 
+           {
+                 let msg= 'please select ';
                if(this.delivery== true)
                {
                     if(this.addressId <=0||this.addressId==undefined)
@@ -308,9 +309,8 @@ addNewAddress()
            
              if(msg!='please select ')   
              this.showLoginAlert(msg);
-
-        }
-
+           }
+       }
     }
    public showLoginAlert(msg:any)
 	{

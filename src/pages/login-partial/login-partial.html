@@ -28,7 +28,13 @@
         <ion-label stacked>Password</ion-label>
         <ion-input  type="password" [(ngModel)]="password"></ion-input>
       </ion-item>
-        
+        <ion-item>
+        <a  block color="primary" (click)="openPasssword()" item-left>
+        Forgot Password ?
+      </a> <a  block color="primary" (click)="verifyCodePasssword()" item-right>
+       Got Code ?
+      </a>
+      </ion-item>
         <ion-item>
    
       <button ion-button block color="primary" (click)="login()">

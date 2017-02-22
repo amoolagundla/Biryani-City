@@ -114,4 +114,24 @@ export class ValuesService {
       };
          return this.http.post('api/FacebookTokens',JSON.stringify(facebookTokens)).map((response: Response) => response.json());
     }
+    ResendEmail(email:any,number:any)
+    {
+      let PasswordReset=
+      {
+          Email :email,
+PhoneNumber:number
+      };
+         return this.http.post('api/Account/LostPassword',JSON.stringify(PasswordReset)).map((response: Response) => response.json());
+    }
+    ResetPassword(token:any,email:any,newPassword:any,confirmPassword:any)
+    {
+      let PasswordReset=
+      {
+          Token:token,
+        Email:email,
+        NewPassword:newPassword,
+       ConfirmPassword:confirmPassword
+      };
+         return this.http.post('api/Account/ChangeResetPassword',JSON.stringify(PasswordReset)).map((response: Response) => response.json());
+    }
 }

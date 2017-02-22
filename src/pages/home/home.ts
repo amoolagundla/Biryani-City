@@ -30,8 +30,13 @@ import {
 import {
 
     LocalNotifications
+    
 
 } from 'ionic-native';
+import {
+    Push,
+    PushToken
+} from '@ionic/cloud-angular';
 import {Events} from 'ionic-angular';
 declare var $: any;
 /*
@@ -52,6 +57,7 @@ export class HomePage   {
         dismissOnPageChange: true
     });
      private showList: boolean;
+       public myVar: boolean = true;
     public categories: any;
     public cartCount: any = 0;
     public abc: any;
@@ -59,13 +65,16 @@ export class HomePage   {
     public product: any = '';
     public products: any=[];
      public filteredProducts: any=[];
-    public myVar: boolean = true;
+  
     constructor(public loadingCtrl: LoadingController,
         public nav: NavController,
         private valuesService: ValuesService,
         private cartService: CartService,
         public storage: Storage,
         public alertController: AlertController, public navParams: NavParams,public events:Events) {
+
+
+           
             this.showList = false;
              this.cartService
             .statusChanged
@@ -84,7 +93,7 @@ export class HomePage   {
           
 
         this.getCatogories();
-
+        this.appinit();
         
         this.email = this.navParams.get('email');
       
@@ -94,60 +103,7 @@ export class HomePage   {
           this.email = users.Email;
             this.valuesService.UpdateUserInfo(users);
 
-             // Get an observable for events emitted on this channel
-//         if (this.email != '' || this.email!=undefined ||  this.email!=null) {
-//             $.connection.hub.url = 'http://99pumba.azurewebsites.net/signalr/hubs';
-//             let chat = $.connection.chatHub;
-//             let th = this;
-//             let em = this.email;
-//             // Start the connection.
-             
 
-//                  this.events.subscribe('SendMessage',(data) => {
-                      
-//                           chat.server.sendToSpecific('sys@gmail.com','Your Order is Ready to Pickup',data.to);
-         
-
-// });
-//             // Create a function that the hub can call to broadcast chat messages.
-//             chat.client.broadcastMessage = function(name, message) {
-                  
-//                                // var msg = JSON.parse(message);
-//             // alert(message)
-//                 // Schedule a sinle notification
-//                 LocalNotifications.schedule({
-//                     id: 1,
-//                     title: 'Biryani City',
-//                     text: message,
-//                     icon: 'res://sicon.png'
-//                 });
-//             };
-
-//             $.connection.hub.start({
-//                 withCredentials: false
-//             }).done(function() {
-//                 //Calls the notify method of the server
-
-//                 chat.server.notify(em, $.connection.hub.id);
-
-
-//             });
-
-//             $.connection.hub.disconnected(function() {
-//     setTimeout(function() {
-//          $.connection.hub.start({
-//                 withCredentials: false
-//             }).done(function() {
-//                 //Calls the notify method of the server
-
-//                 chat.server.notify(em, $.connection.hub.id);
-
-
-//             });
-//     }, 5000); // Re-start connection after 5 seconds
-// });
-
-//         }
         }, error => {
 
             this.nav.setRoot(LoginPage);
@@ -159,7 +115,9 @@ export class HomePage   {
         
     }
 
-
+appinit()
+{
+}
 
     // add item to cart
     addCart(item: any) {

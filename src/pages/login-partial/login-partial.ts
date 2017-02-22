@@ -40,6 +40,18 @@ import {
   
     
 } from 'ionic-native';
+import {
+    Push,
+    PushToken
+} from '@ionic/cloud-angular';
+import { ModalController } from 'ionic-angular';
+import {
+
+    LocalNotifications
+    
+
+} from 'ionic-native';
+import{ResetEmailPage} from '../../pages/reset-email/reset-email';
 /*
   Generated class for the LoginPartial page.
 
@@ -73,8 +85,8 @@ export class LoginPartialPage {
         public valuesService: ValuesService,
         public alertCtrl: AlertController, 
          public storage: Storage, 
-       
-           public events: Events) {
+          public push: Push,
+           public events: Events,public modalCtrl: ModalController) {
         
 
     
@@ -123,16 +135,20 @@ export class LoginPartialPage {
 
 
 
-  getUserInfo() {
+  getUserInfo()  {
         this.valuesService.getAll()
             .subscribe(
                 data => {
-                       
+                      
                     this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
                      //   this.getCatogories();
                         NativeStorage.remove('at');
+                        
+				 
+                      
+
                          this.loading.dismiss();
-                         
+                         this.registerPushToken();
                            this.nav.setRoot(HomePage,{ email: data.Email});
                     
                     }, error => {
@@ -146,5 +162,43 @@ export class LoginPartialPage {
                 });
 
     }
+registerPushToken()
+{
+     this.push.unregister();
+    this.push.register().then((t: PushToken) => {
+  return this.push.saveToken(t);
+}).then((t: PushToken) => {
+     this.valuesService.SaveToken(t.token).subscribe(()=>
+  {
+  },err=>
+  {
+  });
+});
 
+this.push.rx.notification()
+  .subscribe((msg) => {
+   
+    let ms =msg;
+   LocalNotifications.schedule({
+                    id: 1,
+                    title: ms.title,
+                    text: ms.text,
+                    icon: 'res://icon.png',
+                    smallIcon:'file:res//icon.png'
+                });
+  
+  });
+}
+
+
+openPasssword()
+{ 
+    let modal = this.modalCtrl.create(ResetEmailPage, {"resetEmail": true});
+              modal.present();
+}
+verifyCodePasssword()
+{
+    let modal = this.modalCtrl.create(ResetEmailPage, {"resetEmail": false});
+              modal.present();
+}
 }

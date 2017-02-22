@@ -58,7 +58,21 @@ export class OrderDetailsPage {
 		
 	
 	}
-
+OrderPicked()
+{
+  this.valService.UpdateOrder(this.orderInfo.OrderId,"4").subscribe(data=>
+   {
+           let alert = this.alrt.create({
+                            title: 'Order ',
+                            subTitle: 'Notified',
+                            buttons: ['Dismiss']
+                        });
+                        alert.present();
+   },err=>
+   {
+             
+   })
+}
   NotifyUser()
   {
     this.valService.UpdateOrder(this.orderInfo.OrderId,"1").subscribe(data=>

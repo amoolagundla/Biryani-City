@@ -27,6 +27,7 @@ import {
 import {
     RegisterPage
 } from "../register/register";
+
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 import {
@@ -34,7 +35,7 @@ import {
     NativeStorage,
     GooglePlus,
     LocalNotifications,
-    Sim 
+    Sim
     
 } from 'ionic-native';
 import {
@@ -291,9 +292,12 @@ export class LoginPage {
                        
                     this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
                      //   this.getCatogories();
+
+
+                      
                         NativeStorage.remove('at');
                          this.loading.dismiss();
-                         
+                          this.registerPushToken();
                            this.nav.setRoot(HomePage,{ email: data.Email});
                     
                     }, error => {
@@ -307,6 +311,34 @@ export class LoginPage {
                 });
 
     }
+
+registerPushToken()
+{
+     this.push.unregister();
+    this.push.register().then((t: PushToken) => {
+  return this.push.saveToken(t);
+}).then((t: PushToken) => {
+     this.valuesService.SaveToken(t.token).subscribe(()=>
+  {
+  },err=>
+  {
+  });
+});
+
+this.push.rx.notification()
+  .subscribe((msg) => {
+   
+    let ms =msg;
+   LocalNotifications.schedule({
+                    id: 1,
+                    title: ms.title,
+                    text: ms.text,
+                    icon: 'res://icon.png',
+                    smallIcon:'file:res//icon.png'
+                });
+  
+  });
+}
 
     getCatogories() {
         this.valuesService.getAllCategories()
