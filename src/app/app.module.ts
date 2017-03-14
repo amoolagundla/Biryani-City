@@ -48,7 +48,7 @@ import {SharedDataService } from '../services/sharedDataService';
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': '72511df2',
+    'app_id': 'fb38da01',
   },
   'push': {
     'sender_id': '794768984490',

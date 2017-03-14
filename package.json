@@ -59,7 +59,7 @@
       "locator": "cordova-plugin-facebook4",
       "variables": {
         "APP_ID": "1828020577450397",
-        "APP_NAME": "99Meat"
+        "APP_NAME": "Biryani City"
       }
     },
     "cordova-plugin-nativestorage",
