@@ -3,7 +3,6 @@ import {NavController, AlertController,NavParams} from 'ionic-angular';
 import {CartPage} from '../../pages/cart/cart';
 import {CategoryService} from '../../services/category-service';
 import {ItemPage} from "../item/item";
-import {ValuesService} from "../../services/ValuesService";
 import { CartService} from '../../services/cart-service';
 /*
  Generated class for the LoginPage page.
@@ -25,10 +24,9 @@ public productName:any='';
  public product: any = '';
     public products: any=[];
      public filteredProducts: any=[];
-  constructor(public nav: NavController, public categoryService: CategoryService,public navParams: NavParams,
-	public valuesService: ValuesService
+  constructor(public nav: NavController, public categoryService: CategoryService,public navParams: NavParams
 	, public alertController: AlertController,
-	public cartService:CartService) {
+  public cartService:CartService) {
     // get first category as sample data
 			this.category =JSON.parse(this.navParams.get('Id'));	
       this.productName=JSON.parse(this.navParams.get('Name'));	
@@ -93,6 +91,7 @@ this.cartService
     message: "1 X",
       inputs: [
         {
+          type:'number',
           name: 'quantity',
           value: '1'
         },

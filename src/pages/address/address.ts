@@ -6,6 +6,7 @@ import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ModalController,Events } from 'ionic-angular';
 import { ModalContentPage } from '../../pages/checkout/ModalContentPage';
+import {SharedDataService} from '../../services/sharedDataService';
 /*
   Generated class for the Address page.
 
@@ -17,6 +18,7 @@ import { ModalContentPage } from '../../pages/checkout/ModalContentPage';
 	templateUrl: 'address.html'
 })
 export class AddressPage implements OnInit {
+	public _userinfo:UserInfo;
 	public loading: any = this.loadingCtrl.create({
 		content: "Please wait...",
 		dismissOnPageChange: true
@@ -38,16 +40,7 @@ export class AddressPage implements OnInit {
 		PostalCode: ''
 	};
 	ngOnInit() {
-
-
-	}
-
-
-	constructor(public navCtrl: NavController,
-		public loadingCtrl: LoadingController, public navParams: NavParams,
-		public valuesService: ValuesService, public storage: Storage ,	public modalCtrl: ModalController,public events:Events) {
-
-this.events.subscribe('myEvent',() => {
+          this.events.subscribe('myEvent',() => {
 
         this.getUser();
 
@@ -72,26 +65,27 @@ this.events.subscribe('myEvent',() => {
 			this.myVar = false;
 		}
 		
-             this.storage.get('UserInfo').then((currentUser) => {
-			this.userInfo = JSON.parse(currentUser);
-			console.log(this.userInfo);
-			if ((this.userInfo.Addresses != undefined && this.userInfo.Addresses.length == 0) || this.fromCheckout == true) {
-				this.myVar = true;
-			}
-			else {
-				this.myVar = false;
-			}
-		}).catch(error => {
+            this._SharedDataService.UserInfo.subscribe((data)=>
+			{
+				this._userinfo=data;
+				this.userInfo=data;
+			});
+	}
 
-		});
+
+	constructor(public navCtrl: NavController,
+		public loadingCtrl: LoadingController, public navParams: NavParams,
+		public valuesService: ValuesService, public storage: Storage ,	public modalCtrl: ModalController,public events:Events,public _SharedDataService:SharedDataService) {
+
+
 	}
 
 	getUser()
   {
     this.valuesService.getAll()
             .subscribe(
-                data => {   
-                     this.userInfo = data;
+                data => {  
+                   
                 this.storage.set('UserInfo',JSON.stringify(data)).then(()=>{
                     
                 },err=>{});

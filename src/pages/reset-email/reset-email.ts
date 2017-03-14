@@ -55,17 +55,17 @@ SendEmail()
             this.loading.dismiss();
              let alert = this.alertCtrl.create({
     title: 'Reset Password',
-    subTitle: "Please wait to get your verification",
+    subTitle: "Please wait to get your verification Code",
     buttons: ['OK']
   });
        alert.present();  this.viewCtrl.dismiss();
    },err=>
    {
              this.loading.dismiss();  
-                   let er =err.json();
+                 
 				  let alert = this.alertCtrl.create({
     title: 'Login Error ',
-    subTitle: er,
+    subTitle: err.json(),
     buttons: ['Dismiss']
   });
   alert.present();

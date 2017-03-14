@@ -4,10 +4,6 @@ import {LoginPage} from "../login/login";
 import { ValuesService } from '../../services/ValuesService';
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
-import {
-    AlertController
-    
-} from 'ionic-angular';
 /*
  Generated class for the LoginPage page.
 

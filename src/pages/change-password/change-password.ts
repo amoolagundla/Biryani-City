@@ -57,7 +57,7 @@ public confirmPassword :string;
                 },
 								  error => {
                     this.loading.dismiss();
-                 let er =error.json();
+               
 				  let alert = this.alertCtrl.create({
     title: 'Error ',
     subTitle: 'check your password',

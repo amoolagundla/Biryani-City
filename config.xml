@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.mydomainhere.appnamehere" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.mydomainhere.appnamehere" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Biryani City</name>
   <description>An Awesome online fresh meat store</description>
   <author email="am8215@gmail.com" href="http://ionicframework.com/">Abhinav Moolagundla</author>
@@ -60,7 +60,7 @@
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
-  <preference name="SplashScreenDelay" value="6000"/>
+  <preference name="SplashScreenDelay" value="8000"/>
   <preference name="FadeSplashScreen" value="false"/>
   <preference name="FadeSplashScreenDuration" value="0"/>
   <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
@@ -69,9 +69,7 @@
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
-  <plugin name="ionic-plugin-deploy" spec="~0.6.5"/>
   <plugin name="de.appplant.cordova.plugin.local-notification" spec="~0.8.4"/>
-  <plugin name="phonegap-plugin-push" spec="~1.9.2"/>
   <plugin name="cordova-plugin-device" spec="~1.1.3"/>
   <plugin name="cordova-plugin-console" spec="~1.0.4"/>
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
@@ -83,15 +81,12 @@
   <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
     <plugin name="cordova-plugin-appminimize" spec="1.0"/>
     <plugin name="cordova-plugin-app-event" spec="~1.2.0"/>
-    <variable name="APP_ID" value="1835538836698571"/>
-    <variable name="APP_NAME" value="Biryani Ciy test1"/>
+    <variable name="APP_ID" value="1828020577450397"/>
+    <variable name="APP_NAME" value="Biryani Ciy"/>
   </plugin>
   <plugin name="cordova-plugin-nativestorage" spec="~2.2.0"/>
   <plugin name="cordova-plugin-googleplus" spec="~5.1.1">
     <variable name="REVERSED_CLIENT_ID" value="794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com"/>
   </plugin>
-  <plugin name="phonegap-plugin-push" spec="~1.9.2">
-    <variable name="SENDER_ID" value="794768984490"/>
-  </plugin> <plugin name="cordova-plugin-fingerprint-aio" spec="*"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

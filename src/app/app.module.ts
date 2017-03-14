@@ -43,6 +43,7 @@ import{LocationTracker} from '../services/LocationTracker';
 import {OrderDetailsPage} from '../pages/order-details/order-details';
 import{ResetEmailPage} from '../pages/reset-email/reset-email';
 import {LoginPartialPage} from '../pages/Login-Partial/Login-Partial';
+import {SharedDataService } from '../services/sharedDataService';
 // end import pages
 
 const cloudSettings: CloudSettings = {
@@ -133,11 +134,16 @@ const cloudSettings: CloudSettings = {
 		HttpClient,
 		ValuesService,
     SignalRService,
-    LocationTracker
+    LocationTracker,
+    SharedDataService
     /* import services */
   ]
 })
 export class AppModule {
+  constructor(public _sharedDataService:SharedDataService)
+  {
+        this._sharedDataService.getUserInfo();
+  }
 }
 
 export class OrderViewModel{

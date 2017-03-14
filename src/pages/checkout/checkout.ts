@@ -9,9 +9,7 @@ import {
 import {
     HomePage
 } from "../home/home";
-import {
-    AddressPage
-} from "../address/address";
+
 import {
     UserInfo
 } from '../../app/app.module';

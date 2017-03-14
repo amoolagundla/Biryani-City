@@ -43,8 +43,49 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
-    "phonegap-plugin-push",
-    "ionic-plugin-deploy"
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-geolocation",
+    "cordova-plugin-compat",
+    "ionic-plugin-deploy",
+    {
+      "id": "phonegap-plugin-push",
+      "locator": "phonegap-plugin-push",
+      "variables": {
+        "SENDER_ID": "794768984490"
+      }
+    },
+    {
+      "id": "cordova-plugin-facebook4",
+      "locator": "cordova-plugin-facebook4",
+      "variables": {
+        "APP_ID": "1828020577450397",
+        "APP_NAME": "99Meat"
+      }
+    },
+    "cordova-plugin-nativestorage",
+    "de.appplant.cordova.plugin.local-notification",
+    "cordova-plugin-app-event",
+    "cordova-plugin-googleplus",
+    "com.paypal.cordova.mobilesdk",
+    "card.io.cordova.mobilesdk",
+    {
+      "locator": "https://github.com/tomloprod/cordova-plugin-appminimize.git",
+      "id": "cordova-plugin-appminimize"
+    },
+    "cordova-plugin-fingerprint-aio",
+    "cordova-plugin-add-swift-support"
   ],
-  "cordovaPlatforms": ["android"]
+  "cordovaPlatforms": [
+    "android",
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    },
+    {
+      "platform": "windows",
+      "version": "",
+      "locator": "windows"
+    }
+  ]
 }

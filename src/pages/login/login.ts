@@ -2,9 +2,7 @@ import {
     Platform,
     Events
 } from 'ionic-angular';
-import {
-    Component
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';;
 import {
     NavController
 } from 'ionic-angular';
@@ -22,7 +20,7 @@ import {
 } from 'ionic-angular';
 import {
     AlertController
-    
+
 } from 'ionic-angular';
 import {
     RegisterPage
@@ -34,9 +32,9 @@ import {
     Facebook,
     NativeStorage,
     GooglePlus,
-    LocalNotifications,
-    Sim
+    LocalNotifications
     
+
 } from 'ionic-native';
 import {
     Storage
@@ -49,10 +47,8 @@ import {
     Push,
     PushToken
 } from '@ionic/cloud-angular';
-import {
-    AndroidFingerprintAuth
-} from 'ionic-native';
-import {LoginPartialPage} from '../Login-Partial/Login-Partial';
+
+import { LoginPartialPage } from '../Login-Partial/Login-Partial';
 declare const facebookConnectPlugin: any;
 /*
  Generated class for the LoginPage page.
@@ -64,7 +60,7 @@ declare const facebookConnectPlugin: any;
     selector: 'page-login',
     templateUrl: 'login.html'
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
 
     /*private oauth: OauthCordova = new OauthCordova();
         private facebookProvider: Facebook = new Facebook({
@@ -81,51 +77,55 @@ export class LoginPage {
     });
     FB_APP_ID: number = 1835538836698571;
     public password: string = '';
+
+    ngOnInit() {
+        this.initializeApp();
+        NativeStorage.remove('google');
+        NativeStorage.remove('at');
+        this.storage.remove('products');
+        this.storage.remove('categories');
+        this.storage.remove('currentUser');
+        this.storage.remove('userName');
+        this.storage.remove('UserInfo');
+
+
+        GooglePlus.logout().then(
+            function (msg) {
+
+            },
+            function (fail) {
+                console.log(fail);
+            }
+        );
+
+        Facebook.logout().then(() => {
+
+        },
+            err => {
+
+            });
+
+        
+    };
     constructor(public nav: NavController,
         private authenticationService: AuthenticationService,
         public loadingCtrl: LoadingController,
         public valuesService: ValuesService,
-        public alertCtrl: AlertController, 
+        public alertCtrl: AlertController,
         public platform: Platform,
-         public storage: Storage, 
-         public auth: Auth, 
-         public _user: User,
-          public push: Push,
-           public events: Events) {
-        
+        public storage: Storage,
+        public auth: Auth,
+        public _user: User,
+        public push: Push,
+        public events: Events) {
 
-        this.initializeApp();
-   NativeStorage.remove('google');
-      NativeStorage.remove('at');
-           this.storage.remove('products');
-           this.storage.remove('categories');
-         this.storage.remove('currentUser');
-          this.storage.remove('userName');
-           this.storage.remove('UserInfo');
-           
-      
-   GooglePlus.logout().then(
-					function (msg) {
-						
-					},
-					function(fail){
-						console.log(fail);
-					}
-				);
-        
-         Facebook.logout().then(()=>{
-          
-        },
-        err=>{
-      
-        });
+this.user = _user;
 
-        this.user = _user;
-    
-        
-        
+
+
+
     }
-         
+
     // go to register page
     register() {
         this.nav.push(RegisterPage);
@@ -133,270 +133,257 @@ export class LoginPage {
     // login and go to home page
     login() {
 
-       this.nav.push(LoginPartialPage);
+        this.nav.push(LoginPartialPage);
 
     }
 
 
 
- initializeApp() {
-  
-
-
-
-       
-  
-      
-  }
+    initializeApp() {
+    }
 
 
     Googlelogin(acesstoken: any) {
 
-        
-        
+
+
         this.loading.present();
 
         this.authenticationService.Googlelogin(acesstoken)
             .subscribe(
-                data => {
-
-                   
-
-                    this.storage.set('currentUser', data.access_token).then(() => {
+            data => {
 
 
-                        this.getUserInfo();
 
-                    }, error => {
+                this.storage.set('currentUser', data.access_token).then(() => {
 
-                    });
 
-                },
-                error => {
-                    this.loading.dismiss();
-                   let er =error.json();
-				  let alert = this.alertCtrl.create({
-    title: 'Login Error ',
-    subTitle: er.error_description,
-    buttons: ['Dismiss']
-  });
-  alert.present();
-  this.nav.setRoot(LoginPage);
+                    this.getUserInfo();
+
+                }, error => {
+
                 });
+
+            },
+            error => {
+                this.loading.dismiss();
+                let er = error.json();
+                let alert = this.alertCtrl.create({
+                    title: 'Login Error ',
+                    subTitle: er.error_description,
+                    buttons: ['Dismiss']
+                });
+                alert.present();
+                this.nav.setRoot(LoginPage);
+            });
 
     }
     facebooklogin(acesstoken: any) {
 
         this.loading.present();
-               NativeStorage.remove('at');
+        NativeStorage.remove('at');
+          
+
+        
         this.authenticationService.Facebooklogin(acesstoken)
             .subscribe(
-                data => {
-
+            data => {
                    
+                this.storage.set('currentUser', data.access_token).then(() => {
 
-                    this.storage.set('currentUser', data.access_token).then(() => {
+              
+                    this.getUserInfo();
 
+                }, error => {
 
-                        this.getUserInfo();
-
-                    }, error => {
-
-                    });
-
-                },
-                error => {
-                    this.loading.dismiss();
-                     let er =error.json();
-				  let alert = this.alertCtrl.create({
-    title: 'Login Error ',
-    subTitle: er.error_description,
-    buttons: ['Dismiss']
-  });
-  alert.present();
-  this.nav.setRoot(LoginPage);
                 });
+
+            },
+            error => {
+                this.loading.dismiss();
+                let er = error.json();
+                let alert = this.alertCtrl.create({
+                    title: 'Login Error Api',
+                    subTitle: er,
+                    buttons: ['Dismiss']
+                });
+                alert.present();
+                this.nav.setRoot(LoginPage);
+            });
+
+             
 
     }
     googlelog() {
-        
-        let nav = this.nav;
-        let glog =this;
-      
- 
+
+        let navv = this.nav;
+        let glog = this;
+
+
         GooglePlus.login({
-                
-                'webClientId': '794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-                'offline': true
-            })
-            .then(function(user) {
-                                     let at =  JSON.stringify(user);
-                                   
-                                     let userDetails ={
-                                         url:user.imageUrl,
-                                         name:user.givenName
-                                     };
-                                       glog.events.publish("UpdatePic",{pic:userDetails.url});
-                                     NativeStorage.setItem('userDetails',userDetails).then()
-                                        glog.Googlelogin(at);                               
-              
-            }, function(error) {
-                                        let er =error.json();
-                                        let alert = this.alertCtrl.create({
-                            title: 'Login Error ',
-                            subTitle: er.error_description,
-                            buttons: ['Dismiss']
-                        });
-                        alert.present();
-                        this.nav.setRoot(LoginPage);
-                                    });
+
+            'webClientId': '794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+            'offline': true
+        })
+            .then(function (user) {
+                let at = JSON.stringify(user);
+
+                let userDetails = {
+                    url: user.imageUrl,
+                    name: user.givenName
+                };
+                glog.events.publish("UpdatePic", { pic: userDetails.url });
+                NativeStorage.setItem('userDetails', userDetails).then()
+                glog.Googlelogin(at);
+
+            }, function (error) {
+                let er = error.json();
+                let alert = this.alertCtrl.create({
+                    title: 'Login Error ',
+                    subTitle: er,
+                    buttons: ['Dismiss']
+                });
+                alert.present();
+                navv.setRoot(LoginPage);
+            });
     }
 
     public postfbTokens(token: any) {
         this.loading.present();
         this.valuesService.PostFacebookTokens(token)
             .subscribe(
-                data => {
+            data => {
 
-                    this.loading.dismiss();
+               
 
-                },
-                error => {
-                    this.loading.dismiss();
+            },
+            error => {
+              
 
-                });
+            });
     }
 
 
     ioniclog() {
-        let loginData = {
-            'username': this.username,
-            'password': this.password
-        };
-
-        this.auth.login("basic")
-        .then((res) => {
-            if (res) {
-                console.log('Login success, rerouting');
-                this.nav.setRoot(HomePage);
-                //let nav2 = this.app.getComponent('nav');
-                //nav2.setRoot(HomePage);
-            }
-        })
-    }
+        }
 
     getUserInfo() {
         this.valuesService.getAll()
             .subscribe(
-                data => {
-                       
-                    this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
-                     //   this.getCatogories();
+            data => {
+
+                this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
+                    //   this.getCatogories();
 
 
-                      
-                        NativeStorage.remove('at');
-                         this.loading.dismiss();
-                          this.registerPushToken();
-                           this.nav.setRoot(HomePage,{ email: data.Email});
-                    
-                    }, error => {
 
-                    });
-
-                },
-                error => {
+                    NativeStorage.remove('at');
                     this.loading.dismiss();
+                    this.registerPushToken();
+                    this.nav.setRoot(HomePage, { email: data.Email });
+
+                }, error => {
 
                 });
 
+            },
+            error => {
+                this.loading.dismiss();
+
+            });
+
     }
 
-registerPushToken()
-{
-     this.push.unregister();
-    this.push.register().then((t: PushToken) => {
-  return this.push.saveToken(t);
-}).then((t: PushToken) => {
-     this.valuesService.SaveToken(t.token).subscribe(()=>
-  {
-  },err=>
-  {
-  });
-});
+    registerPushToken() {
+        this.push.unregister();
+        this.push.register().then((t: PushToken) => {
+            return this.push.saveToken(t);
+        }).then((t: PushToken) => {
+           // alert(t.token);
+            this.valuesService.SaveToken(t.token).subscribe(() => {
+            }, err => {
+                });
+        });
 
-this.push.rx.notification()
-  .subscribe((msg) => {
-   
-    let ms =msg;
-   LocalNotifications.schedule({
+        this.push.rx.notification()
+            .subscribe((msg) => {
+
+                let ms = msg;
+                LocalNotifications.schedule({
                     id: 1,
                     title: ms.title,
                     text: ms.text,
                     icon: 'res://icon.png',
-                    smallIcon:'file:res//icon.png'
+                    smallIcon: 'file:res//icon.png'
                 });
-  
-  });
-}
+
+            });
+    }
 
     getCatogories() {
         this.valuesService.getAllCategories()
             .subscribe(
-                data => {
-                    this.storage.set('categories', JSON.stringify(data)).then(() => {
-                        this.loading.dismiss();
-                        this.nav.setRoot(HomePage);
+            data => {
+                this.storage.set('categories', JSON.stringify(data)).then(() => {
+                    this.loading.dismiss();
+                    this.nav.setRoot(HomePage);
 
-                    }, error => {
-                        this.loading.dismiss();
-                    });
-
-                },
-                error => {
+                }, error => {
                     this.loading.dismiss();
                 });
+
+            },
+            error => {
+                this.loading.dismiss();
+            });
     }
 
     loginFB() {
 
         let permissions = new Array();
-        let nav = this.nav;
+        let navv = this.nav;
         let platform = this;
         Facebook.logout()
-    .then(function(response) {
-     
-    }, function(error){
-      console.log(error);
-    });
+            .then(function (response) {
+
+            }, function (error) {
+                console.log(error);
+            });
         //the permissions your facebook app needs from the user
-        permissions = ["public_profile"];
+        permissions = ["public_profile,email"];
 
         Facebook.login(permissions)
-            .then(function(response) {
-             let userId = response.authResponse.userID;
-      let params = new Array();
+            .then(function (response) {
+                let userId = response.authResponse.userID;
                 let at = response.authResponse.accessToken;
-              platform.facebooklogin(at);
-         
-        //now we have the users info, let's save it in the NativeStorage
-                
-          let userDetails ={
-                                         url:"https://graph.facebook.com/" + userId + "/picture?type=large",
-                                         name:''
-                                     };
+               // alert(at)
+                platform.facebooklogin(at);
 
-platform.events.publish("UpdatePic",{pic:userDetails.url});
-        NativeStorage.setItem('userDetails',userDetails)
-        .then(function(){
-         
-        }, function (error) {
-          console.log(error);
-        });
+                //now we have the users info, let's save it in the NativeStorage
 
-            }, function(error) {
-          
-                
+                let userDetails = {
+                    url: "https://graph.facebook.com/" + userId + "/picture?type=large",
+                    name: ''
+                };
+
+                platform.events.publish("UpdatePic", { pic: userDetails.url });
+                NativeStorage.setItem('userDetails', userDetails)
+                    .then(function () {
+
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+            }, function (error) {
+                      let er = error.json();
+                let alert = this.alertCtrl.create({
+                    title: 'Login Error ',
+                    subTitle: er,
+                    buttons: ['Dismiss']
+                });
+                alert.present();
+                navv.setRoot(LoginPage);
+
             });
     }
 

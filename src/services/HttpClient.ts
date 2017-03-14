@@ -23,10 +23,7 @@ public baseurl:any ='http://99pumba.azurewebsites.net/';
 getApiToken(): Observable<Headers> {
      let headers: Headers = new Headers();
     return Observable.fromPromise(this.storage.get('currentUser').then((cUser) => {
-      let currentUser = cUser;
-     
-  
-      headers.append('Authorization', 'Bearer ' +cUser);
+           headers.append('Authorization', 'Bearer ' +cUser);
       headers.append('Content-Type', 'application/json');
       return headers;
     },error=>

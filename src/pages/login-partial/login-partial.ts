@@ -1,5 +1,5 @@
 import {
-    Platform,
+    
     Events
 } from 'ionic-angular';
 import {
@@ -51,6 +51,8 @@ import {
     
 
 } from 'ionic-native';
+
+import { SharedDataService } from '../../services/sharedDataService';
 import{ResetEmailPage} from '../../pages/reset-email/reset-email';
 /*
   Generated class for the LoginPartial page.
@@ -86,7 +88,8 @@ export class LoginPartialPage {
         public alertCtrl: AlertController, 
          public storage: Storage, 
           public push: Push,
-           public events: Events,public modalCtrl: ModalController) {
+           public events: Events,public modalCtrl: ModalController,
+            public _SharedDataService: SharedDataService) {
         
 
     
@@ -115,7 +118,7 @@ export class LoginPartialPage {
                         this.getUserInfo();
 
                     }, error => {
-
+console.log(error);
                     });
 
                 },
@@ -139,17 +142,17 @@ export class LoginPartialPage {
         this.valuesService.getAll()
             .subscribe(
                 data => {
-                      
+                        
                     this.storage.set('UserInfo', JSON.stringify(data)).then(() => {
                      //   this.getCatogories();
                         NativeStorage.remove('at');
-                        
+                        this.loading.dismiss();
+                        this.registerPushToken();
+                           this.nav.setRoot(HomePage,{ email: data.Email});
 				 
                       
 
-                         this.loading.dismiss();
-                         this.registerPushToken();
-                           this.nav.setRoot(HomePage,{ email: data.Email});
+                       
                     
                     }, error => {
 
@@ -157,6 +160,7 @@ export class LoginPartialPage {
 
                 },
                 error => {
+                    console.log(error);
                     this.loading.dismiss();
 
                 });
@@ -172,6 +176,7 @@ registerPushToken()
   {
   },err=>
   {
+      console.log(err); 
   });
 });
 

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {LoginPage} from '../../pages/login/login';
 import { Storage } from '@ionic/storage';
 import {
     ValuesService
@@ -13,6 +12,10 @@ import {
 import {
    OrderDetailsPage
 } from '../../pages/order-details/order-details';
+
+import { SharedDataService } from '../../services/sharedDataService';
+
+import {  UserInfo } from '../../app/app.module';
 /*
   Generated class for the MyOrders page.
 
@@ -29,17 +32,20 @@ export class MyOrdersPage {
     public orderViewModel:any[];
      public filtered:any[];
     public user:any;
+    public userInfo:UserInfo;
     public products:any[];
-  constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController) {
+  constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController,
+   public _SharedDataService: SharedDataService) {
 	
 
-  
+  this._SharedDataService.UserInfo.subscribe((data)=>
+			{
+			
+				this.userInfo=data;
 
-
-	this.storage.get('UserInfo').then((data) => {
-                 this.user = JSON.parse(data);
-                 
-	 this.valService.getUserOrders(this.user.Email =="sys@gmail.com"? 'null':this.user.Id).subscribe(data=>
+                       console.log(this.userInfo)
+			});
+        this.valService.getUserOrders(this.userInfo.Email =="sys@gmail.com"? 'null':this.userInfo.Id).subscribe(data=>
    {
           this.orderViewModel=data;
             this.initializeItems();
@@ -47,25 +53,10 @@ export class MyOrdersPage {
    {
              this.nav.pop();
    })
-
-
-            },error=>
-					{
-             let alert = this.alrt.create({
-                            title: 'Error ',
-                            subTitle: 'Please Login to view Orders',
-                            buttons: ['Dismiss']
-                        });
-                        alert.present();
-             this.nav.pop();
-					});  
-		
 	
 	}
 
-  ionViewDidLoad() {
- 
-  }
+  
 
 
 initializeItems() {
@@ -117,7 +108,7 @@ this.myVar=true;
 doRefresh(refresher) {
 
 
-this.valService.getUserOrders(this.user.Email =="sys@gmail.com"? 'null':this.user.Id).subscribe(data=>
+this.valService.getUserOrders(this.userInfo.Email =="sys@gmail.com"? 'null':this.userInfo.Id).subscribe(data=>
    {
       refresher.complete();
           this.orderViewModel=data;

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import {LoginPage} from '../../pages/login/login';
 import { Storage } from '@ionic/storage';
 import {
     ValuesService
@@ -12,6 +11,11 @@ import {
     
 } from 'ionic-angular';
 import {Events} from 'ionic-angular';
+
+
+import {  UserInfo } from '../../app/app.module';
+
+import { SharedDataService } from '../../services/sharedDataService';
 
 /*
   Generated class for the OrderDetails page.
@@ -28,20 +32,21 @@ export class OrderDetailsPage {
  public orderViewModel:any[];
     public orderInfo:any;
     public ifsys:boolean=false;
+    public userInfo:UserInfo=null;
   constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController,public navParams:NavParams
-  ,public events:Events) {
+  ,public events:Events, public _SharedDataService: SharedDataService) {
 	
 	this.orderInfo = this.navParams.get('id');
-     this.storage.get('UserInfo').then((user) => {
-          let users =JSON.parse(user);
-             if(users.Email =='sys@gmail.com')
+
+   this._SharedDataService.UserInfo.subscribe((data)=>
+			{
+				
+				this.userInfo=data;
+        if(this.userInfo.Email =='sys@gmail.com')
           {
             this.ifsys=true;
           }
-     },err=>
-     {
-
-     });
+			});
         
 	 this.valService.getUserOrderDetails(this.orderInfo.OrderId).subscribe(data=>
    {

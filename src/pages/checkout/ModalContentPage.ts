@@ -1,9 +1,8 @@
-import { Component,OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController,ViewController ,NavParams } from 'ionic-angular';
-import {Address,UserInfo} from '../../app/app.module';
+import {Address} from '../../app/app.module';
 import { ValuesService } from '../../services/ValuesService';
 import { LoadingController } from 'ionic-angular';
-import {LoginPage} from '../login/login';
 import {Events} from 'ionic-angular';
 @Component({
     selector: 'New-Adress',
