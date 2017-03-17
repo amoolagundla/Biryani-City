@@ -9,6 +9,10 @@ import { UserPage } from '../pages/user/user';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
 import { CartService } from '../services/cart-service';
+
+import { UserInfo } from './app.module';
+
+import { SharedDataService } from '../services/sharedDataService';
 declare var window;
 @Component({
   templateUrl: 'app.html',
@@ -17,13 +21,15 @@ declare var window;
   }
 })
 export class MyApp {
+
+  public userInfo: UserInfo = null;
   public url: string = '';
   public name: string = 'Biryani City';
   public rootPage: any;
   public cartItemCount: any = 0;
   public nav: any;
-
-  public pages = [
+  public pages = [];
+  public loggedInPages = [
     {
       title: 'Home',
       icon: 'ios-home-outline',
@@ -62,8 +68,36 @@ export class MyApp {
 
 
   ];
+  public loggedOutPages = [
+    {
+      title: 'Home',
+      icon: 'ios-home-outline',
+      count: 0,
+      component: HomePage
+    }, {
+      title: 'My Cart',
+      icon: 'ios-cart-outline',
+      count: this.cartItemCount,
+      component: CartPage
+    },
+    {
+      title: 'About us',
+      icon: 'ios-information-circle-outline',
+      count: 0,
+      component: AboutPage
+    },
+    {
+      title: 'Logout/Login',
+      icon: 'ios-log-out-outline',
+      count: 0,
+      component: LoginPage
+    },
+    // import menu
 
-  constructor(public platform: Platform, private cartService: CartService) {
+
+  ];
+
+  constructor(public platform: Platform, private cartService: CartService, public _SharedDataService: SharedDataService) {
     this.rootPage = HomePage;
 
 
@@ -94,7 +128,12 @@ export class MyApp {
       }
 
     });
+    this._SharedDataService.UserInfo.subscribe((data) => {
 
+      this.userInfo = data;
+        this.showPages();
+    });
+     this.showPages();
     // subscribe to cart changes
     this.cartService
       .statusChanged
@@ -105,7 +144,14 @@ export class MyApp {
       });
 
   }
-
+  showPages() {
+    if (this.userInfo == null) {
+      this.pages = this.loggedOutPages;
+    }
+    else {
+      this.pages = this.loggedInPages;
+    }
+  }
   // view my profile
   viewMyProfile() {
     this.nav.setRoot(UserPage);

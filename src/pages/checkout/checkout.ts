@@ -25,7 +25,6 @@ import {
 import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
 import {PayPal, PayPalPayment, PayPalConfiguration} from "ionic-native";
-import{LocationTracker} from '../../services/LocationTracker';
 import { ModalController,Events } from 'ionic-angular';
 import { ModalContentPage } from './ModalContentPage';
 declare var google;
@@ -58,6 +57,7 @@ export class CheckoutPage {
         DeliveryDate: ''
 
     };
+    public te:Geolocation;
     public delivery:boolean =false;
     public address: any = {
         Address1: '',
@@ -97,7 +97,7 @@ export class CheckoutPage {
                         zoom: 64,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     }
-
+console.log(options);
                     //this.map = new google.maps.Map(document.getElementById("map"), options);
 
                     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
@@ -138,7 +138,7 @@ export class CheckoutPage {
         public navParams: NavParams,
         public cartService: CartService,
         private valuesService: ValuesService,
-        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,public locationTracker: LocationTracker,
+        public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,
 		public modalCtrl: ModalController,public events:Events) {
          
         this.events.subscribe('myEvent',() => {

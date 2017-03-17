@@ -38,8 +38,6 @@ import {SettingPage} from '../pages/setting/setting';
 import {UserPage} from '../pages/user/user';
 import {LogoutPage} from '../pages/logout/logout';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { SignalRService } from '../services/signalRService';
-import{LocationTracker} from '../services/LocationTracker';
 import {OrderDetailsPage} from '../pages/order-details/order-details';
 import{ResetEmailPage} from '../pages/reset-email/reset-email';
 import {LoginPartialPage} from '../pages/Login-Partial/Login-Partial';
@@ -51,7 +49,7 @@ const cloudSettings: CloudSettings = {
     'app_id': 'fb38da01',
   },
   'push': {
-    'sender_id': '794768984490',
+    'sender_id': '695358309253',
     'pluginConfig': {
       'ios': {
         'badge': true,
@@ -132,9 +130,8 @@ const cloudSettings: CloudSettings = {
     ChatService,
 		AuthenticationService,
 		HttpClient,
-		ValuesService,
-    SignalRService,
-    LocationTracker,
+		ValuesService,    
+    
     SharedDataService
     /* import services */
   ]

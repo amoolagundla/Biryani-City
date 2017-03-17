@@ -126,9 +126,16 @@ this.cartService
 
     prompt.present();
   }
-GoToCart()
-{
-
-	this.nav.push(CartPage);
-}
+ GoToCart() {
+        if (this.cartCount != 0)
+            this.nav.push(CartPage);
+        else {
+            let alert = this.alertController.create({
+                title: 'Cart ',
+                subTitle: 'Cart Empty',
+                buttons: ['Dismiss']
+            });
+            alert.present();
+        }
+    } 
 }

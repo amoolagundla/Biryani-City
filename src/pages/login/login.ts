@@ -222,12 +222,12 @@ this.user = _user;
 
         GooglePlus.login({
 
-            'webClientId': '794768984490-keg257msut0vkmlfp92o0a68o6i36q41.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+            'webClientId': '695358309253-rg8nla5ip1bqs1sk7qlt1imlh7fsatco.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
             'offline': true
         })
             .then(function (user) {
                 let at = JSON.stringify(user);
-
+                alert(at);
                 let userDetails = {
                     url: user.imageUrl,
                     name: user.givenName
