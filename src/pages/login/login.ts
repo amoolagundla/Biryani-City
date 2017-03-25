@@ -1,6 +1,5 @@
 import {
-    Platform,
-    Events
+    Platform
 } from 'ionic-angular';
 import { Component, OnInit } from '@angular/core';;
 import {
@@ -39,15 +38,7 @@ import {
 import {
     Storage
 } from '@ionic/storage';
-import {
-    Auth,
-    User
-} from '@ionic/cloud-angular';
-import {
-    Push,
-    PushToken
-} from '@ionic/cloud-angular';
-
+import { OneSignal } from 'ionic-native';
 import { LoginPartialPage } from '../Login-Partial/Login-Partial';
 declare const facebookConnectPlugin: any;
 /*
@@ -70,7 +61,6 @@ export class LoginPage implements OnInit {
 
     public username: string = '';
     public token: string;
-    public user: User;
     public loading: any = this.loadingCtrl.create({
         content: "Please wait...",
         dismissOnPageChange: true
@@ -80,6 +70,8 @@ export class LoginPage implements OnInit {
 
     ngOnInit() {
         this.initializeApp();
+
+           this.valuesService.logOut();
         NativeStorage.remove('google');
         NativeStorage.remove('at');
         this.storage.remove('products');
@@ -113,14 +105,7 @@ export class LoginPage implements OnInit {
         public valuesService: ValuesService,
         public alertCtrl: AlertController,
         public platform: Platform,
-        public storage: Storage,
-        public auth: Auth,
-        public _user: User,
-        public push: Push,
-        public events: Events) {
-
-this.user = _user;
-
+        public storage: Storage) {
 
 
 
@@ -227,12 +212,11 @@ this.user = _user;
         })
             .then(function (user) {
                 let at = JSON.stringify(user);
-                alert(at);
+               
                 let userDetails = {
                     url: user.imageUrl,
                     name: user.givenName
-                };
-                glog.events.publish("UpdatePic", { pic: userDetails.url });
+                };              
                 NativeStorage.setItem('userDetails', userDetails).then()
                 glog.Googlelogin(at);
 
@@ -295,29 +279,36 @@ this.user = _user;
     }
 
     registerPushToken() {
-        this.push.unregister();
-        this.push.register().then((t: PushToken) => {
-            return this.push.saveToken(t);
-        }).then((t: PushToken) => {
-           // alert(t.token);
-            this.valuesService.SaveToken(t.token).subscribe(() => {
+
+        OneSignal.getIds().then(data => {
+            
+           this.valuesService.SaveToken(JSON.stringify(data)).subscribe(() => {
             }, err => {
                 });
-        });
+// this gives you back the new userId and pushToken associated with the device. Helpful.
+});
+        // this.push.unregister();
+        // this.push.register().then((t: PushToken) => {
+        //     return this.push.saveToken(t);
+        // }).then((t: PushToken) => {
+        //    // alert(t.token);
+            
+        // });
 
-        this.push.rx.notification()
-            .subscribe((msg) => {
+        // this.push.rx.notification()
+        //     .subscribe((msg) => {
+        //      alert(msg);
+        //         let ms = msg;
+        //         LocalNotifications.schedule({
+        //             id: 1,
+        //             title: ms.title,
+        //             text: ms.text,
+        //             icon: 'res://img/icon.png',
+        //             smallIcon: 'res://icon.png',
+        //             led:'ff0202'
+        //         });
 
-                let ms = msg;
-                LocalNotifications.schedule({
-                    id: 1,
-                    title: ms.title,
-                    text: ms.text,
-                    icon: 'res://icon.png',
-                    smallIcon: 'file:res//icon.png'
-                });
-
-            });
+        //     });
     }
 
     getCatogories() {
@@ -366,7 +357,7 @@ this.user = _user;
                     name: ''
                 };
 
-                platform.events.publish("UpdatePic", { pic: userDetails.url });
+              
                 NativeStorage.setItem('userDetails', userDetails)
                     .then(function () {
 

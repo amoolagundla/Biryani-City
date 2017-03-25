@@ -1,7 +1,4 @@
-import {
-    
-    Events
-} from 'ionic-angular';
+
 import {
     Component
 } from '@angular/core';
@@ -40,10 +37,7 @@ import {
   
     
 } from 'ionic-native';
-import {
-    Push,
-    PushToken
-} from '@ionic/cloud-angular';
+import { OneSignal } from 'ionic-native';
 import { ModalController } from 'ionic-angular';
 import {
 
@@ -86,9 +80,7 @@ export class LoginPartialPage {
         public loadingCtrl: LoadingController,
         public valuesService: ValuesService,
         public alertCtrl: AlertController, 
-         public storage: Storage, 
-          public push: Push,
-           public events: Events,public modalCtrl: ModalController,
+         public storage: Storage,public modalCtrl: ModalController,
             public _SharedDataService: SharedDataService) {
         
 
@@ -168,31 +160,12 @@ console.log(error);
     }
 registerPushToken()
 {
-     this.push.unregister();
-    this.push.register().then((t: PushToken) => {
-  return this.push.saveToken(t);
-}).then((t: PushToken) => {
-     this.valuesService.SaveToken(t.token).subscribe(()=>
-  {
-  },err=>
-  {
-      console.log(err); 
-  });
-});
-
-this.push.rx.notification()
-  .subscribe((msg) => {
-   
-    let ms =msg;
-   LocalNotifications.schedule({
-                    id: 1,
-                    title: ms.title,
-                    text: ms.text,
-                    icon: 'res://icon.png',
-                    smallIcon:'file:res//icon.png'
+     OneSignal.getIds().then(data => {
+          
+           this.valuesService.SaveToken(JSON.stringify(data)).subscribe(() => {
+            }, err => {
                 });
-  
-  });
+     });
 }
 
 

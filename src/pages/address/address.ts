@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Address, UserInfo } from '../../app/app.module';
 import { ValuesService } from '../../services/ValuesService';
-import { LoadingController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-import { ModalController,Events } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular'; 
+import { ModalController } from 'ionic-angular';
 import { ModalContentPage } from '../../pages/checkout/ModalContentPage';
 import {SharedDataService} from '../../services/sharedDataService';
 /*
@@ -40,16 +39,9 @@ export class AddressPage implements OnInit {
 		PostalCode: ''
 	};
 	ngOnInit() {
-          this.events.subscribe('myEvent',() => {
+          
 
-        this.getUser();
-
-}); 
-
- this.events.subscribe('UpdateUserInfo',() => {
-
-          this.getUser();
-}); 
+ 
 		let add = this.navParams.get('address');
        this.goToCart = this.navParams.get('gotToCart');
 	
@@ -75,27 +67,12 @@ export class AddressPage implements OnInit {
 
 	constructor(public navCtrl: NavController,
 		public loadingCtrl: LoadingController, public navParams: NavParams,
-		public valuesService: ValuesService, public storage: Storage ,	public modalCtrl: ModalController,public events:Events,public _SharedDataService:SharedDataService) {
+		public valuesService: ValuesService, 	public modalCtrl: ModalController,public _SharedDataService:SharedDataService) {
 
 
 	}
 
-	getUser()
-  {
-    this.valuesService.getAll()
-            .subscribe(
-                data => {  
-                   
-                this.storage.set('UserInfo',JSON.stringify(data)).then(()=>{
-                    
-                },err=>{});
-                }, 
-                error => {
-                 
-                  
-                });
-                
-  }
+	
 	addNewAddress()
 {
     let modal = this.modalCtrl.create(ModalContentPage);
@@ -114,8 +91,15 @@ export class AddressPage implements OnInit {
 		this.valuesService.DeleteAddress(id).
 			subscribe(
 			da => {
-				this.loading.dismiss();
-                 this.events.publish('UpdateUserInfo');
+
+				this.valuesService.getAll().subscribe(data =>
+				{
+					this.loading.dismiss();
+				},err=>
+				{
+				});
+				
+               
 				
 					
 					  
@@ -138,7 +122,7 @@ export class AddressPage implements OnInit {
 							.filter(todo => todo.Id !== model.Id);
 
 						this.userInfo.Addresses.push(model);
-						this.storage.set('UserInfo', JSON.stringify(this.userInfo));
+						
 						this.loading.dismiss();
 
                          if(this.goToCart== undefined)
@@ -159,7 +143,7 @@ export class AddressPage implements OnInit {
 					da => {
                           console.log("added id is " + da.Id)
 						this.userInfo.Addresses.push(da);
-						this.storage.set('UserInfo', JSON.stringify(this.userInfo));
+					
 						this.loading.dismiss();
 
 

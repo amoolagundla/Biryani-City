@@ -25,8 +25,9 @@ import {
 import { Geolocation } from 'ionic-native';
 import { Storage } from '@ionic/storage';
 import {PayPal, PayPalPayment, PayPalConfiguration} from "ionic-native";
-import { ModalController,Events } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 import { ModalContentPage } from './ModalContentPage';
+import {SharedDataService} from '../../services/sharedDataService';
 declare var google;
 declare const RazorpayCheckout: any;
 
@@ -97,7 +98,6 @@ export class CheckoutPage {
                         zoom: 64,
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     }
-console.log(options);
                     //this.map = new google.maps.Map(document.getElementById("map"), options);
 
                     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
@@ -139,46 +139,22 @@ console.log(options);
         public cartService: CartService,
         private valuesService: ValuesService,
         public loadingCtrl: LoadingController, public platform: Platform, public storage: Storage,
-		public modalCtrl: ModalController,public events:Events) {
+		public modalCtrl: ModalController,public _SharedDataService:SharedDataService) {
          
-        this.events.subscribe('myEvent',() => {
-
-         this.getUserInfosw();
-
-});
+       this._SharedDataService.UserInfo.subscribe((data)=>
+			{
+				this.userInfo=data;
+				
+			});
          
-        this.storage.get('UserInfo').then((currentUser) => {
-            this.userInfo = SerializationHelper.toInstance(new UserInfo(), currentUser);
-           
-            // set data for categories
             this.cart = cartService.getCart();
             this.total = this.navParams.get('total');
             this.platform = platform; this.loadMap();
             this.myVar = true;
-        }, error => {
-
-            });
 
 
 
     }
-
-getUserInfosw()
-  {
-    this.valuesService.getAll()
-            .subscribe(
-                data => {   
-                     this.userInfo = data;
-                this.storage.set('UserInfo',JSON.stringify(data)).then(()=>{
-                     this.events.publish('UpdateUserInfo');
-                },err=>{});
-                }, 
-                error => {
-                 
-                  
-                });
-                
-  }
 addNewAddress()
 {
     let modal = this.modalCtrl.create(ModalContentPage);
@@ -234,10 +210,14 @@ addNewAddress()
         this.valuesService.InsertAddress(this.address)
             .subscribe(
             da => {
-                console.log("added id is " + da.Id)
-                this.userInfo.Addresses.push(da);
-                this.storage.set('UserInfo', JSON.stringify(this.userInfo));
-                this.loading.dismiss();
+                 this.valuesService.getAll().subscribe(data=>
+                 {
+                    this.loading.dismiss();
+                 },err=>
+                 {
+                     this.loading.dismiss();
+                 });
+              
             });
         
     }
@@ -432,7 +412,6 @@ addNewAddress()
                 handler: data => {
 
                     this.cartService.ClearCart();
-                      this.events.publish('NewOrder');
                     this.nav.setRoot(HomePage);
                 }
             }]

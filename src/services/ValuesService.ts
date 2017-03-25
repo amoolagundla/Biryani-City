@@ -89,14 +89,22 @@ export class ValuesService {
         return this.http.get('api/UserInfo').map((response: Response) =>  
         {
             this._SharedDataService.USerInfoChanged(response.json());
+            
             return response.json()
         });
            
     }
+
+    logOut()
+    {
+     this._SharedDataService.USerInfoChanged(null);
+    }
+
     getAllCategories() {
         let returnData = this.http.get('api/Categories').map((response: Response) => { return response.json(); });
    return returnData;
     }
+    
     getAllProducts(id: any) {
         return this.http.get('api/Products/' + id).map((response: Response) => response.json());
     }

@@ -1,28 +1,35 @@
-<ion-menu [content]="content">
+<ion-split-pane>
 
+  <!-- logged out menu -->
+  <ion-menu id="loggedOutMenu" [content]="content">
 
-   
-
-  <ion-content class="menu-left" style="top:2px;">
-     
-
-      <div text-center padding-top padding-bottom class="primary-bg menu-left" style="background-color: rgba(199, 230, 229, 0) !important;">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title> <div text-center padding-top padding-bottom class="primary-bg menu-left" style="background-color: rgba(199, 230, 229, 0) !important;">
       <a menuClose >
         <img class="profile-picture"  src="assets/img/icon.png">
         <h4 color="light">{{name}}</h4>
       </a>
-    </div>
+    </div></ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-
-    <ion-list class="list-full-border">
+    <ion-content class="outer-content">
+          <ion-list class="list-full-border">
       <button ion-item menuClose *ngFor="let page of pages" (click)="openPage(page)">
         <ion-icon item-left name="{{ page.icon }}"></ion-icon>
         {{ page.title }}
         <ion-badge danger item-right *ngIf="page.count">{{ page.count }}</ion-badge>
       </button>
     </ion-list>
-  </ion-content>
+     
+    </ion-content>
 
-</ion-menu>
+  </ion-menu>
 
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+ 
+
+  <!-- main navigation -->
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
+
+</ion-split-pane>

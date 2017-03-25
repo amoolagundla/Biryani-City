@@ -37,30 +37,13 @@ import {RegisterPage} from '../pages/register/register';
 import {SettingPage} from '../pages/setting/setting';
 import {UserPage} from '../pages/user/user';
 import {LogoutPage} from '../pages/logout/logout';
-import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import {OrderDetailsPage} from '../pages/order-details/order-details';
 import{ResetEmailPage} from '../pages/reset-email/reset-email';
 import {LoginPartialPage} from '../pages/Login-Partial/Login-Partial';
 import {SharedDataService } from '../services/sharedDataService';
 // end import pages
 
-const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': 'fb38da01',
-  },
-  'push': {
-    'sender_id': '695358309253',
-    'pluginConfig': {
-      'ios': {
-        'badge': true,
-        'sound': true
-      },
-      'android': {
-        'iconColor': '#343434'
-      }
-    }
-  }
-};
+
 @NgModule({
   declarations: [
     MyApp,
@@ -90,7 +73,7 @@ const cloudSettings: CloudSettings = {
     ResetEmailPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp,{tabsPlacement: 'top'}),  CloudModule.forRoot(cloudSettings),
+    IonicModule.forRoot(MyApp,{tabsPlacement: 'top'}),  
 		FormsModule
   ],
   bootstrap: [IonicApp],

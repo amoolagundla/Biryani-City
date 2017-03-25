@@ -28,8 +28,6 @@ import {
 import {  UserInfo } from '../../app/app.module';
 
 import { SharedDataService } from '../../services/sharedDataService';
-
-import { Events } from 'ionic-angular';
 declare var $: any;
 /*
  Generated class for the LoginPage page.
@@ -94,7 +92,7 @@ public userInfo:UserInfo;
         private valuesService: ValuesService,
         private cartService: CartService,
         public storage: Storage,
-        public alertController: AlertController, public navParams: NavParams, public events: Events,
+        public alertController: AlertController, public navParams: NavParams,
         public _SharedDataService: SharedDataService) {
     }
 

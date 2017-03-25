@@ -9,7 +9,6 @@ import {
 
 
 } from 'ionic-native';
-import { Events } from 'ionic-angular';
 
 import {  UserInfo } from '../../app/app.module';
 import { SharedDataService } from '../../services/sharedDataService';
@@ -23,7 +22,7 @@ export class SettingPage {
   public name: string = '';
   public userInfo: UserInfo= new UserInfo();
  
-  constructor(public nav: NavController, public valService: ValuesService, public events: Events,
+  constructor(public nav: NavController, public valService: ValuesService, 
     public _SharedDataService: SharedDataService) {
 
 
@@ -39,11 +38,6 @@ export class SettingPage {
     }, err => {
 
       });
-
-    this.events.subscribe('UpdatePic', (data) => {
-
-      this.url = data.url;
-    });
 
   }
 

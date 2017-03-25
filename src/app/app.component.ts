@@ -9,9 +9,8 @@ import { UserPage } from '../pages/user/user';
 import { AboutPage } from '../pages/about/about';
 import { LoginPage } from '../pages/login/login';
 import { CartService } from '../services/cart-service';
-
+import { OneSignal } from 'ionic-native';
 import { UserInfo } from './app.module';
-
 import { SharedDataService } from '../services/sharedDataService';
 declare var window;
 @Component({
@@ -99,10 +98,11 @@ export class MyApp {
 
   constructor(public platform: Platform, private cartService: CartService, public _SharedDataService: SharedDataService) {
     this.rootPage = HomePage;
-
+    this.showPages();
 
 
     this.platform.ready().then(() => {
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
@@ -117,6 +117,22 @@ export class MyApp {
   }
   initializeApp() {
 
+    this._SharedDataService.UserInfo.subscribe((data) => {
+      
+      this.userInfo = data;
+      this.showPages();
+    });
+
+    OneSignal.startInit('19e74911-eb39-4e13-83dd-1c11cb3cba1e', '695358309253');
+    OneSignal.inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification);
+    OneSignal.setSubscription(true);
+    OneSignal.handleNotificationReceived().subscribe(() => {
+      // do something when the notification is received.
+    });
+    OneSignal.handleNotificationOpened().subscribe(() => {
+      // do something when the notification is opened.
+    });
+    OneSignal.endInit();
 
     this.platform.registerBackButtonAction(() => {
 
@@ -128,16 +144,9 @@ export class MyApp {
       }
 
     });
-    this._SharedDataService.UserInfo.subscribe((data) => {
-
-      this.userInfo = data;
-        this.showPages();
-    });
-     this.showPages();
-    // subscribe to cart changes
+    
     this.cartService
-      .statusChanged
-      .subscribe(data => {
+      .statusChanged.subscribe(data => {
         this.pages[1].count = data.totalCount;
 
 
@@ -151,6 +160,8 @@ export class MyApp {
     else {
       this.pages = this.loggedInPages;
     }
+  
+
   }
   // view my profile
   viewMyProfile() {

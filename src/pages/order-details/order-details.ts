@@ -10,7 +10,6 @@ import {
     NavParams
     
 } from 'ionic-angular';
-import {Events} from 'ionic-angular';
 
 
 import {  UserInfo } from '../../app/app.module';
@@ -34,7 +33,7 @@ export class OrderDetailsPage {
     public ifsys:boolean=false;
     public userInfo:UserInfo=null;
   constructor(public nav: NavController, public navCtrl: NavController,public storage: Storage,public valService:ValuesService,public alrt:AlertController,public navParams:NavParams
-  ,public events:Events, public _SharedDataService: SharedDataService) {
+  , public _SharedDataService: SharedDataService) {
 	
 	this.orderInfo = this.navParams.get('id');
 
@@ -91,10 +90,7 @@ OrderPicked()
    },err=>
    {
              
-   })
-
-
-    // this.events.publish('SendMessage',{to:this.orderInfo.Email});
+   });
   }
 
 }

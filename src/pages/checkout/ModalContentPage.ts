@@ -3,7 +3,6 @@ import { NavController,ViewController ,NavParams } from 'ionic-angular';
 import {Address} from '../../app/app.module';
 import { ValuesService } from '../../services/ValuesService';
 import { LoadingController } from 'ionic-angular';
-import {Events} from 'ionic-angular';
 @Component({
     selector: 'New-Adress',
     templateUrl: 'NewAdress.html'
@@ -28,7 +27,7 @@ public address:any={
 
   constructor(public navCtrl: NavController,
 	public loadingCtrl: LoadingController,public navParams: NavParams,
-	public valuesService:ValuesService,public viewCtrl: ViewController,public events:Events
+	public valuesService:ValuesService,public viewCtrl: ViewController
   ) {
     
    	let add = this.navParams.get('user');
@@ -47,10 +46,8 @@ public address:any={
                     this.valuesService.UpdateAddress(model)
 					.subscribe(
 					da => {
-
-						 this.loading.dismiss();
-				         this.events.publish('myEvent');
-                         this.viewCtrl.dismiss();
+                           this.updateUserInof();
+						
 					}, error => {
 						this.loading.dismiss();
 					});
@@ -62,16 +59,28 @@ public address:any={
 			this.valuesService.InsertAddress(model)
             .subscribe(
                 da => {	
-				        this.loading.dismiss();
-				         this.events.publish('myEvent');
-							
-								
-										this.viewCtrl.dismiss();
+				        this.updateUserInof();
 					});
                 }
 
 			
 		}
+  }
+
+  updateUserInof()
+  {
+	  this.valuesService.getAll()
+					.subscribe(
+					da => {
+
+						 this.loading.dismiss();
+				      
+                         this.viewCtrl.dismiss();
+					}, error => {
+						this.loading.dismiss();
+					});
+	  
+   
   }
   dismiss() {
     this.viewCtrl.dismiss();
